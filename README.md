@@ -81,6 +81,8 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
+**For detailed setup and testing instructions, see [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md).**
+
 ## 📁 Project Structure
 
 ```
