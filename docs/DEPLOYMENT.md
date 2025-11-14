@@ -127,13 +127,29 @@ vercel --prod
 
 If using real Hostaway API:
 
+### Local Development
+
+Create `.env.local` file in project root:
+```bash
+HOSTAWAY_API_KEY=f94377ebbbb479490bb3ec364649168dc443dda2e4830facaf5de2e74ccc9152
+HOSTAWAY_ACCOUNT_ID=61148
+```
+
+### Vercel Deployment
+
 1. Vercel Dashboard → Project → Settings → Environment Variables
 2. Add:
    - `HOSTAWAY_API_KEY` = `f94377ebbbb479490bb3ec364649168dc443dda2e4830facaf5de2e74ccc9152`
    - `HOSTAWAY_ACCOUNT_ID` = `61148`
 3. Redeploy
 
-**Note:** Currently using mock data, so this is optional.
+### Activate Real API
+
+1. Uncomment code in `app/api/reviews/hostaway/route.ts` (function `fetchHostawayReviews()`)
+2. Comment out mock data return
+3. Redeploy
+
+**Note:** Currently using mock data, so this is optional. The app correctly handles Hostaway API response format: `{status: "success", result: [...]}`.
 
 ---
 

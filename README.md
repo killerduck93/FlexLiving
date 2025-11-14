@@ -398,12 +398,15 @@ Built as part of the Flex Living Developer Assessment.
 
 All documentation is available in the `docs/` folder:
 
-- **[Testing Guide](docs/TESTING_GUIDE.md)** - Comprehensive testing instructions
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment guide (quick start + detailed steps)
-- **[Submission Guide](docs/SUBMISSION_GUIDE.md)** - Step-by-step submission process
 - **[Assessment Verification](docs/ASSESSMENT_VERIFICATION.md)** - Complete requirements verification
-- **[Google Reviews Research](docs/GOOGLE_REVIEWS.md)** - Google Reviews integration research and findings
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Deployment instructions (includes Hostaway API setup)
+- **[Testing Guide](docs/TESTING.md)** - Quick testing checklist
+- **[Google Reviews Research](docs/GOOGLE_REVIEWS.md)** - Google Reviews integration research
 - **[Assessment PDF](docs/FlexLiving_Reviews_Dashboard_Assessment.pdf)** - Original assessment document
+
+**Additional Documents:**
+- **[DELIVERABLES.md](DELIVERABLES.md)** - Complete deliverables summary
+- **[FINAL_STATUS.md](FINAL_STATUS.md)** - Final status and submission checklist
 
 ## 📧 Contact
 
