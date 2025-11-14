@@ -15,6 +15,29 @@ export const dynamic = 'force-dynamic';
  * 
  * @returns Promise<HostawayReview[]> - Array of raw reviews from Hostaway API
  */
+/**
+ * Fetches reviews from Hostaway API
+ * 
+ * Handles the Hostaway API response format:
+ * {
+ *   "status": "success",
+ *   "result": [
+ *     {
+ *       "id": 7453,
+ *       "type": "host-to-guest",
+ *       "status": "published",
+ *       "rating": null,
+ *       "publicReview": "...",
+ *       "reviewCategory": [...],
+ *       "submittedAt": "2020-08-21 22:45:14",
+ *       "guestName": "...",
+ *       "listingName": "..."
+ *     }
+ *   ]
+ * }
+ * 
+ * @returns Promise<HostawayReview[]> - Array of raw reviews from Hostaway API
+ */
 async function fetchHostawayReviews(): Promise<HostawayReview[]> {
   // Production implementation would call the Hostaway API:
   // const response = await fetch(
@@ -26,9 +49,17 @@ async function fetchHostawayReviews(): Promise<HostawayReview[]> {
   //   }
   // );
   // const data = await response.json();
-  // return data.result || [];
+  // 
+  // // Handle Hostaway API response format: {status: "success", result: [...]}
+  // if (data.status === 'success' && Array.isArray(data.result)) {
+  //   return data.result;
+  // } else {
+  //   console.error('Unexpected Hostaway API response format:', data);
+  //   return [];
+  // }
 
   // Return mock data for development/testing
+  // Mock data matches the Hostaway API response format
   return mockReviews as HostawayReview[];
 }
 
