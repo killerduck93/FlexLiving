@@ -5,7 +5,7 @@ A comprehensive review management system for Flex Living property managers to as
 ## 🚀 Live Application
 
 **Production URL:**  
-✅ **https://flex-living-reviews-killerduck93s-proviews.vercel.app**
+✅ **https://flex-living-reviews-killerduck93s-projects.vercel.app**
 
 **Status:** ✅ **DEPLOYED AND WORKING**
 
