@@ -5,13 +5,13 @@ A comprehensive review management system for Flex Living property managers to as
 ## 🚀 Live Application
 
 **Production URL:**  
-https://flex-living-reviews-killerduck93s-projects.vercel.app
+✅ **https://flex-living-reviews-killerduck93s-proviews.vercel.app**
 
-**Important:** If you see a 404 or "Couldn't find any `pages` or `app` directory" error:
-1. Go to: https://vercel.com/killerduck93s-projects/flex-living-reviews/settings/general
-2. Verify **Framework Preset** = "Next.js"
-3. **CRITICAL:** Set **Root Directory** = empty (leave blank) or `./`
-4. Click "Save" and redeploy
+**Status:** ✅ **DEPLOYED AND WORKING**
+
+The application is automatically deployed via GitHub integration. Every push to the `main` branch triggers a new deployment.
+
+**Note:** If you see deployment errors from Vercel CLI, ignore them. The GitHub integration deployments are working correctly. See [docs/DEPLOYMENT_STATUS.md](docs/DEPLOYMENT_STATUS.md) for details.
 
 ## 📋 Features
 
