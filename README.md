@@ -120,11 +120,19 @@ flex-living-reviews/
 │   └── review.ts                      # TypeScript types
 ├── data/
 │   └── mockReviews.json               # Mock review data
+├── docs/                               # Documentation
+│   ├── TESTING_GUIDE.md               # Testing instructions
+│   ├── DEPLOYMENT.md                  # Deployment guide
+│   ├── GOOGLE_REVIEWS.md              # Google Reviews research
+│   └── ...                            # Additional documentation
 ├── package.json
 ├── tsconfig.json
 ├── tailwind.config.js
-└── next.config.js
+├── next.config.js
+└── README.md                           # This file
 ```
+<｜tool▁calls▁begin｜><｜tool▁call▁begin｜>
+run_terminal_cmd
 
 ## 🔌 API Endpoints
 
@@ -386,31 +394,15 @@ Built as part of the Flex Living Developer Assessment.
 **Date:** January 2025  
 **Time Investment:** ~8 hours
 
-## 📚 Additional Documentation
+## 📚 Documentation
 
 All documentation is available in the `docs/` folder:
 
-### Quick Start & Deployment
-- **[Quick Start Deployment](docs/QUICK_START_DEPLOYMENT.md)** - Fast 3-step deployment guide
-- **[Deployment Guide](docs/DEPLOYMENT.md)** - Detailed deployment instructions
-- **[Deployment Steps](docs/DEPLOYMENT_STEPS.md)** - Step-by-step deployment with troubleshooting
-
-### Testing & Verification
 - **[Testing Guide](docs/TESTING_GUIDE.md)** - Comprehensive testing instructions
-- **[Assessment Verification](docs/ASSESSMENT_VERIFICATION.md)** - Requirements verification checklist
-- **[Final Checklist](docs/FINAL_CHECKLIST.md)** - Final verification checklist
-
-### Submission & Release
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Complete deployment guide (quick start + detailed steps)
 - **[Submission Guide](docs/SUBMISSION_GUIDE.md)** - Step-by-step submission process
-- **[Release Notes](docs/RELEASE_NOTES.md)** - Version 1.0.0 release information
-- **[Deliverables Checklist](docs/DELIVERABLES_CHECKLIST.md)** - Complete deliverables verification
-- **[Final Status](docs/FINAL_STATUS.md)** - Current project status
-
-### Research & Next Steps
+- **[Assessment Verification](docs/ASSESSMENT_VERIFICATION.md)** - Complete requirements verification
 - **[Google Reviews Research](docs/GOOGLE_REVIEWS.md)** - Google Reviews integration research and findings
-- **[Next Steps](docs/NEXT_STEPS.md)** - Post-deployment next steps
-
-### Assessment
 - **[Assessment PDF](docs/FlexLiving_Reviews_Dashboard_Assessment.pdf)** - Original assessment document
 
 ## 📧 Contact
