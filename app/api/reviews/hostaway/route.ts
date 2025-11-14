@@ -89,8 +89,29 @@ export async function GET(request: Request) {
     // Fetch raw reviews from Hostaway API (mocked in development)
     const hostawayReviews = await fetchHostawayReviews();
 
+    // Safety check: ensure hostawayReviews is an array
+    if (!Array.isArray(hostawayReviews)) {
+      console.error('Hostaway reviews is not an array:', hostawayReviews);
+      return NextResponse.json({
+        success: false,
+        count: 0,
+        data: [],
+        error: 'Invalid data format from Hostaway API',
+      }, { status: 500 });
+    }
+
     // Normalize reviews: convert dates, calculate averages, set defaults
-    const normalizedReviews: NormalizedReview[] = hostawayReviews.map(normalizeReview);
+    // Use safe mapping with error handling
+    const normalizedReviews: NormalizedReview[] = hostawayReviews
+      .map(review => {
+        try {
+          return normalizeReview(review);
+        } catch (err) {
+          console.error('Error normalizing review:', err, review);
+          return null;
+        }
+      })
+      .filter((review): review is NormalizedReview => review !== null);
 
     // Apply filters based on query parameters
     let filteredReviews = normalizedReviews;
@@ -105,6 +126,7 @@ export async function GET(request: Request) {
     if (rating !== undefined) {
       filteredReviews = filteredReviews.filter(r => {
         const reviewRating = r.rating || r.averageCategoryRating;
+        if (reviewRating === null || reviewRating === undefined) return false;
         const starRating = Math.floor(reviewRating / 2); // Convert 1-10 to 1-5
         return starRating === rating;
       });
@@ -113,7 +135,7 @@ export async function GET(request: Request) {
     // Filter by category (checks if review has the specified category)
     if (category) {
       filteredReviews = filteredReviews.filter(r =>
-        r.reviewCategory.some(cat => cat.category === category)
+        Array.isArray(r.reviewCategory) && r.reviewCategory.some(cat => cat.category === category)
       );
     }
     
@@ -140,21 +162,26 @@ export async function GET(request: Request) {
     }));
 
     // Return successful response with normalized and filtered reviews
+    // Always return consistent structure: { success, count, data }
     return NextResponse.json({
       success: true,
       count: reviewsWithDisplayStatus.length,
-      data: reviewsWithDisplayStatus,
+      data: Array.isArray(reviewsWithDisplayStatus) ? reviewsWithDisplayStatus : [],
       source: 'mock', // In production, this would be 'hostaway'
     });
   } catch (error) {
     // Log error for debugging
     console.error('Error fetching Hostaway reviews:', error);
     
-    // Return error response
+    // Return error response with consistent structure
+    // Always include 'data' as empty array to prevent client crashes
     return NextResponse.json(
       {
-        status: 'error',
-        message: 'Failed to fetch reviews',
+        success: false,
+        count: 0,
+        data: [],
+        error: 'Failed to fetch reviews',
+        message: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }
     );

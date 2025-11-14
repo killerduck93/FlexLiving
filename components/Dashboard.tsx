@@ -55,17 +55,34 @@ export default function Dashboard() {
   /**
    * Fetches all reviews from the Hostaway API endpoint
    * Updates both reviews and filteredReviews state
+   * Includes robust error handling to prevent client-side crashes
    */
   const fetchReviews = async () => {
     try {
       const response = await fetch('/api/reviews/hostaway');
+      
+      // Check if response is ok
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const data = await response.json();
-      if (data.success) {
+      
+      // Safety check: ensure data exists and has expected structure
+      if (data && data.success && Array.isArray(data.data)) {
         setReviews(data.data);
         setFilteredReviews(data.data); // Initialize filtered reviews with all reviews
+      } else {
+        // If structure is unexpected, use empty arrays to prevent crashes
+        console.warn('Unexpected API response structure:', data);
+        setReviews([]);
+        setFilteredReviews([]);
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
+      // Set empty arrays on error to prevent crashes
+      setReviews([]);
+      setFilteredReviews([]);
     } finally {
       setLoading(false); // Always set loading to false, even on error
     }
@@ -143,7 +160,8 @@ export default function Dashboard() {
     // Apply category filter (checks if review contains the category)
     if (filters.category) {
       filtered = filtered.filter(r =>
-        r.reviewCategory.some(cat => cat.category === filters.category)
+        Array.isArray(r?.reviewCategory) && 
+        r.reviewCategory.some(cat => cat?.category === filters.category)
       );
     }
     
@@ -165,11 +183,14 @@ export default function Dashboard() {
     // Apply search query (searches guest name, review text, and property name)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(r =>
-        r.guestName.toLowerCase().includes(query) ||
-        r.publicReview.toLowerCase().includes(query) ||
-        r.listingName.toLowerCase().includes(query)
-      );
+      filtered = filtered.filter(r => {
+        const guestName = r?.guestName?.toLowerCase() || '';
+        const publicReview = r?.publicReview?.toLowerCase() || '';
+        const listingName = r?.listingName?.toLowerCase() || '';
+        return guestName.includes(query) || 
+               publicReview.includes(query) || 
+               listingName.includes(query);
+      });
     }
 
     // Apply sorting based on selected field and direction
@@ -234,11 +255,22 @@ export default function Dashboard() {
   };
 
   // Extract unique values for filter dropdowns
-  const listings = Array.from(new Set(reviews.map(r => r.listingName)));
-  const channels = Array.from(new Set(reviews.map(r => r.channel)));
-  const categories = Array.from(new Set(
-    reviews.flatMap(r => r.reviewCategory.map(c => c.category))
-  ));
+  // Use safe array operations to prevent crashes
+  const listings = Array.isArray(reviews) 
+    ? Array.from(new Set(reviews.map(r => r?.listingName).filter(Boolean)))
+    : [];
+  const channels = Array.isArray(reviews)
+    ? Array.from(new Set(reviews.map(r => r?.channel).filter(Boolean)))
+    : [];
+  const categories = Array.isArray(reviews)
+    ? Array.from(new Set(
+        reviews.flatMap(r => 
+          Array.isArray(r?.reviewCategory) 
+            ? r.reviewCategory.map(c => c?.category).filter(Boolean)
+            : []
+        )
+      ))
+    : [];
 
   /**
    * Handles sort button clicks

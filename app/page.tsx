@@ -29,16 +29,31 @@ export default function Home() {
   /**
    * Fetches all reviews from the Hostaway API endpoint
    * Updates the reviews state with the fetched data
+   * Includes robust error handling to prevent client-side crashes
    */
   const fetchReviews = async () => {
     try {
       const response = await fetch('/api/reviews/hostaway');
+      
+      // Check if response is ok
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
       const data = await response.json();
-      if (data.success) {
+      
+      // Safety check: ensure data exists and has expected structure
+      if (data && data.success && Array.isArray(data.data)) {
         setReviews(data.data);
+      } else {
+        // If structure is unexpected, use empty array to prevent crashes
+        console.warn('Unexpected API response structure:', data);
+        setReviews([]);
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
+      // Set empty array on error to prevent crashes
+      setReviews([]);
     } finally {
       setLoading(false);
     }
