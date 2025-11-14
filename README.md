@@ -246,97 +246,20 @@ Since the Hostaway sandbox contains no reviews, the application includes realist
 
 ## 🔍 Google Reviews Integration Research
 
-### Findings
+For detailed Google Reviews integration research, findings, and implementation guide, see [docs/GOOGLE_REVIEWS.md](docs/GOOGLE_REVIEWS.md).
 
-**Feasibility:** ✅ Possible via Google Places API
+**Summary:**
+- ✅ Feasible via Google Places API
+- Estimated cost: $10-30/month for typical portfolio
+- Recommendation: Implement as Phase 2 feature
 
-**Method:** Places API with Place Details endpoint
+## 🚀 Deployment
 
-**Implementation:**
-```javascript
-const response = await fetch(
-  `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${API_KEY}`
-);
-```
-
-**Pros:**
-- Official Google API
-- Structured review data
-- Includes ratings, text, author, date
-- Reliable and well-documented
-
-**Cons:**
-- API costs (~$17 per 1000 requests)
-- Limited to 5 most helpful reviews per location
-- Cannot filter reviews (all are public per Google policy)
-- Requires unique Place ID for each property
-- Requires Google Cloud Platform setup
-
-**Recommendation:** 
-Implement as Phase 2 feature with daily sync to manage costs. Consider caching reviews locally to minimize API calls.
-
-**Estimated Cost:** $10-30/month for typical property portfolio (10-20 properties with daily sync).
-
-**Alternative Approach:**
-- Use Google My Business API (requires business verification)
-- Implement web scraping (not recommended, violates ToS)
-- Manual import via CSV export from Google Business Profile
-
-## 🚀 Deployment to Vercel
-
-### Via Vercel Dashboard
-
-1. Push code to GitHub
-2. Visit [vercel.com](https://vercel.com)
-3. Click "New Project"
-4. Import your repository
-5. Add environment variables:
-   - `HOSTAWAY_API_KEY` (optional)
-   - `HOSTAWAY_ACCOUNT_ID` (optional)
-6. Click "Deploy"
-
-### Via Vercel CLI
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Login
-vercel login
-
-# Deploy
-vercel
-
-# Add environment variables
-vercel env add HOSTAWAY_API_KEY
-vercel env add HOSTAWAY_ACCOUNT_ID
-
-# Deploy to production
-vercel --prod
-```
+For detailed deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) or [docs/QUICK_START_DEPLOYMENT.md](docs/QUICK_START_DEPLOYMENT.md).
 
 ## 🧪 Testing
 
-### Manual Testing
-
-**Dashboard Features:**
-- ✅ View statistics cards
-- ✅ Check property performance rankings
-- ✅ Apply various filters
-- ✅ Toggle review display status
-- ✅ Search functionality
-- ✅ Sort by date, rating, property
-
-**Public View:**
-- ✅ Switch to "Public View" tab
-- ✅ Verify only approved reviews appear
-- ✅ Check responsive layout
-
-**API Testing:**
-- ✅ Visit `/api/reviews/hostaway` directly
-- ✅ Test display toggle functionality
-- ✅ Verify `/api/reviews/public` returns correct data
-- ✅ Check statistics endpoint
+For comprehensive testing instructions, see [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md).
 
 ## 💻 Code Quality
 
