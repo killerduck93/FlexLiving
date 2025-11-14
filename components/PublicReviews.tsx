@@ -4,15 +4,42 @@ import { NormalizedReview } from '@/types/review';
 import { Star, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
 
+/**
+ * Props for the PublicReviews component
+ */
 interface PublicReviewsProps {
+  /** Array of reviews approved for public display */
   reviews: NormalizedReview[];
 }
 
+/**
+ * PublicReviews Component
+ * 
+ * Displays the public-facing review page for Flex Living properties.
+ * Shows only reviews that have been approved by managers for public display.
+ * 
+ * Features:
+ * - Hero section with Flex Living branding
+ * - Property information and amenities
+ * - Average rating display
+ * - List of approved guest reviews with ratings
+ * - Responsive design matching Flex Living website style
+ * 
+ * @param props - PublicReviewsProps
+ * @returns JSX element representing the public reviews page
+ */
 export default function PublicReviews({ reviews }: PublicReviewsProps) {
+  /**
+   * Formats a date to a readable string format
+   * 
+   * @param date - Date object to format
+   * @returns Formatted date string (e.g., "Jan 15, 2024")
+   */
   const formatDate = (date: Date) => {
     return format(date, 'MMM d, yyyy');
   };
 
+  // Calculate average rating from all displayed reviews
   const avgRating = reviews.length > 0
     ? reviews.reduce((acc, r) => acc + (r.rating || r.averageCategoryRating), 0) / reviews.length
     : 0;
