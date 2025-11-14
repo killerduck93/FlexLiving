@@ -17,7 +17,8 @@ interface TrendsChartProps {
  * @param trends - Array of trend data points with date, count, and averageRating
  */
 export default function TrendsChart({ trends }: TrendsChartProps) {
-  if (trends.length === 0) {
+  // Safety check: ensure trends is an array
+  if (!Array.isArray(trends) || trends.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-md p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Trends</h3>

@@ -16,11 +16,23 @@ interface CategoryBreakdownProps {
  * @param reviewsByCategory - Object mapping category names to count and average rating
  */
 export default function CategoryBreakdown({ reviewsByCategory }: CategoryBreakdownProps) {
+  // Safety check: ensure reviewsByCategory is an object
+  if (!reviewsByCategory || typeof reviewsByCategory !== 'object') {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Category Performance</h3>
+        <p className="text-gray-500 text-center py-8">No category data available</p>
+      </div>
+    );
+  }
+
   const categories = Object.entries(reviewsByCategory)
     .map(([category, data]) => ({
       category,
-      ...data,
+      count: data?.count ?? 0,
+      averageRating: typeof data?.averageRating === 'number' ? data.averageRating : 0,
     }))
+    .filter(cat => cat.count > 0) // Filter out categories with no reviews
     .sort((a, b) => b.averageRating - a.averageRating); // Sort by rating descending
 
   if (categories.length === 0) {

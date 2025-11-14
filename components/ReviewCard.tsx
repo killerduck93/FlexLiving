@@ -31,10 +31,17 @@ interface ReviewCardProps {
  * @returns JSX element representing a review card
  */
 export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle = false }: ReviewCardProps) {
+  // Safety check: ensure review exists
+  if (!review) {
+    return null;
+  }
+
   // Use overall rating if available, otherwise use calculated average from categories
-  const rating = review.rating || review.averageCategoryRating;
+  // Add safety checks to prevent crashes
+  const rating = review?.rating ?? review?.averageCategoryRating ?? 0;
+  const safeRating = typeof rating === 'number' && !isNaN(rating) ? rating : 0;
   // Calculate number of filled stars (1-5 scale, rating is 1-10 scale)
-  const stars = Math.floor(rating);
+  const stars = Math.floor(safeRating);
 
   return (
     <div className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${
@@ -48,7 +55,7 @@ export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle 
           {/* Guest name and display status badge */}
           <div className="flex items-center gap-2 mb-2">
             <User className="w-5 h-5 text-gray-500" />
-            <span className="font-semibold text-gray-900">{review.guestName}</span>
+            <span className="font-semibold text-gray-900">{review?.guestName || 'Anonymous'}</span>
             {/* Display status badge (only shown in dashboard) */}
             {showDisplayToggle && (
               <span className={`px-2 py-1 text-xs rounded-full ${
@@ -64,15 +71,19 @@ export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle 
           <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
             <div className="flex items-center gap-1">
               <Building className="w-4 h-4" />
-              <span>{review.listingName}</span>
+              <span>{review?.listingName || 'Unknown property'}</span>
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
-              <span>{format(review.submittedAt, 'MMM d, yyyy')}</span>
+              <span>
+                {review?.submittedAt && !isNaN(new Date(review.submittedAt).getTime())
+                  ? format(new Date(review.submittedAt), 'MMM d, yyyy')
+                  : 'Date unknown'}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <MessageSquare className="w-4 h-4" />
-              <span className="capitalize">{review.channel}</span>
+              <span className="capitalize">{review?.channel || 'unknown'}</span>
             </div>
           </div>
         </div>
@@ -93,7 +104,7 @@ export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle 
       </div>
 
       {/* Star rating display (only shown if rating exists) */}
-      {rating && (
+      {safeRating > 0 && (
         <div className="flex items-center gap-2 mb-3">
           {/* Display 5 stars, filled based on rating (1-10 scale converted to 1-5 stars) */}
           <div className="flex">
@@ -107,29 +118,33 @@ export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle 
             ))}
           </div>
           {/* Numeric rating display (1-10 scale) */}
-          <span className="text-lg font-semibold text-gray-900">{rating.toFixed(1)}</span>
+          <span className="text-lg font-semibold text-gray-900">{safeRating.toFixed(1)}</span>
         </div>
       )}
 
       {/* Review text content */}
-      <p className="text-gray-700 mb-4">{review.publicReview}</p>
+      <p className="text-gray-700 mb-4">{review?.publicReview || 'No review text available'}</p>
 
       {/* Category ratings breakdown (cleanliness, communication, location, etc.) */}
-      {review.reviewCategory.length > 0 && (
+      {Array.isArray(review?.reviewCategory) && review.reviewCategory.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pt-4 border-t">
-          {review.reviewCategory.map((category, idx) => (
-            <div key={idx} className="flex justify-between items-center">
-              {/* Category name with underscores replaced by spaces */}
-              <span className="text-sm text-gray-600 capitalize">
-                {category.category.replace('_', ' ')}
-              </span>
-              {/* Category rating with star icon */}
-              <div className="flex items-center gap-1">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm font-medium">{category.rating}</span>
+          {review.reviewCategory.map((category, idx) => {
+            const categoryName = category?.category || 'unknown';
+            const categoryRating = category?.rating ?? 0;
+            return (
+              <div key={idx} className="flex justify-between items-center">
+                {/* Category name with underscores replaced by spaces */}
+                <span className="text-sm text-gray-600 capitalize">
+                  {categoryName.replace('_', ' ')}
+                </span>
+                {/* Category rating with star icon */}
+                <div className="flex items-center gap-1">
+                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <span className="text-sm font-medium">{categoryRating}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

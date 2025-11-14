@@ -40,8 +40,12 @@ export default function PublicReviews({ reviews }: PublicReviewsProps) {
   };
 
   // Calculate average rating from all displayed reviews
+  // Use safe operations to prevent crashes
   const avgRating = reviews.length > 0
-    ? reviews.reduce((acc, r) => acc + (r.rating || r.averageCategoryRating), 0) / reviews.length
+    ? reviews.reduce((acc, r) => {
+        const rating = r?.rating ?? r?.averageCategoryRating ?? 0;
+        return acc + (typeof rating === 'number' && !isNaN(rating) ? rating : 0);
+      }, 0) / reviews.length
     : 0;
 
   return (
@@ -93,18 +97,29 @@ export default function PublicReviews({ reviews }: PublicReviewsProps) {
             {reviews.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {reviews.map(review => {
-                  const rating = review.rating || review.averageCategoryRating;
-                  const stars = Math.floor(rating / 2); // Convert 10-point scale to 5-star
+                  // Safe rating calculation with fallbacks
+                  const rating = review?.rating ?? review?.averageCategoryRating ?? 0;
+                  const safeRating = typeof rating === 'number' && !isNaN(rating) ? rating : 0;
+                  const stars = Math.floor(safeRating / 2); // Convert 10-point scale to 5-star
+                  
+                  // Safe guest name handling
+                  const guestName = review?.guestName || 'Anonymous';
+                  const guestInitial = guestName.charAt(0).toUpperCase();
+                  
+                  // Safe date handling
+                  const reviewDate = review?.submittedAt ? new Date(review.submittedAt) : new Date();
                   
                   return (
-                    <div key={review.id} className="bg-gray-50 rounded-lg p-6">
+                    <div key={review?.id || Math.random()} className="bg-gray-50 rounded-lg p-6">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
-                          {review.guestName.charAt(0)}
+                          {guestInitial}
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-900">{review.guestName}</p>
-                          <p className="text-xs text-gray-500">{formatDate(review.submittedAt)}</p>
+                          <p className="font-semibold text-gray-900">{guestName}</p>
+                          <p className="text-xs text-gray-500">
+                            {!isNaN(reviewDate.getTime()) ? formatDate(reviewDate) : 'Date unknown'}
+                          </p>
                         </div>
                       </div>
                       
@@ -116,13 +131,19 @@ export default function PublicReviews({ reviews }: PublicReviewsProps) {
                             className={i < stars ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}
                           />
                         ))}
-                        <span className="text-sm font-medium text-gray-700 ml-1">{rating.toFixed(1)}/10</span>
+                        <span className="text-sm font-medium text-gray-700 ml-1">
+                          {safeRating.toFixed(1)}/10
+                        </span>
                       </div>
                       
-                      <p className="text-gray-700 text-sm leading-relaxed">{review.publicReview}</p>
+                      <p className="text-gray-700 text-sm leading-relaxed">
+                        {review?.publicReview || 'No review text available'}
+                      </p>
                       
                       <div className="mt-3 pt-3 border-t border-gray-200">
-                        <p className="text-xs text-gray-500">{review.listingName}</p>
+                        <p className="text-xs text-gray-500">
+                          {review?.listingName || 'Unknown property'}
+                        </p>
                       </div>
                     </div>
                   );

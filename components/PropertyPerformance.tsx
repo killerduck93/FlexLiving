@@ -17,11 +17,23 @@ interface PropertyPerformanceProps {
  * @param reviewsByListing - Object mapping property names to count and average rating
  */
 export default function PropertyPerformance({ reviewsByListing }: PropertyPerformanceProps) {
+  // Safety check: ensure reviewsByListing is an object
+  if (!reviewsByListing || typeof reviewsByListing !== 'object') {
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Property Performance</h3>
+        <p className="text-gray-500 text-center py-8">No property data available</p>
+      </div>
+    );
+  }
+
   const properties = Object.entries(reviewsByListing)
     .map(([listing, data]) => ({
       listing,
-      ...data,
+      count: data?.count ?? 0,
+      averageRating: typeof data?.averageRating === 'number' ? data.averageRating : 0,
     }))
+    .filter(prop => prop.count > 0) // Filter out properties with no reviews
     .sort((a, b) => b.averageRating - a.averageRating); // Sort by rating descending
 
   if (properties.length === 0) {
