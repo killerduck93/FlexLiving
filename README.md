@@ -165,7 +165,9 @@ For Google Reviews integration research and findings, see [docs/GOOGLE_REVIEWS.m
 
 ## 🤖 AI Tool Disclosure
 
-This project was developed with assistance from **Claude (Anthropic)** via Cursor IDE for code generation, debugging, and optimization.
+This project was developed with assistance from:
+- **Cursor IDE** - AI-powered code editor for code generation, debugging, and optimization
+- **ChatGPT Pro** - AI assistant for problem-solving, code review, and implementation guidance
 
 ## 📄 License
 
