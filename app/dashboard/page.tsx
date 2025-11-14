@@ -5,8 +5,11 @@ import { NormalizedReview, ReviewStats } from '@/types/review';
 import ReviewCard from '@/components/ReviewCard';
 import FilterBar from '@/components/FilterBar';
 import { TotalReviewsCard, AverageRatingCard, PropertiesCard } from '@/components/StatsCard';
+import TrendsChart from '@/components/TrendsChart';
+import CategoryBreakdown from '@/components/CategoryBreakdown';
+import PropertyPerformance from '@/components/PropertyPerformance';
 import { ReviewFilters } from '@/types/review';
-import { Search, SortAsc, SortDesc } from 'lucide-react';
+import { Search, SortAsc, SortDesc, AlertCircle, TrendingUp } from 'lucide-react';
 
 /**
  * Sort field options for review sorting
@@ -94,11 +97,13 @@ export default function Dashboard() {
       const data = await response.json();
       if (data.status === 'success' && data.reviews) {
         // Create a map of review ID to display status for quick lookup
-        const displayMap = new Map(data.reviews.map((r: any) => [r.id, r.displayOnWebsite]));
+        const displayMap = new Map<number, boolean>(
+          data.reviews.map((r: { id: number; displayOnWebsite: boolean }) => [r.id, r.displayOnWebsite])
+        );
         // Update reviews with their display status
         setReviews(prev => prev.map(r => ({
           ...r,
-          displayOnWebsite: displayMap.get(r.id) || false,
+          displayOnWebsite: displayMap.get(r.id) ?? false,
         })));
       }
     } catch (error) {
@@ -279,6 +284,59 @@ export default function Dashboard() {
             <TotalReviewsCard value={stats.totalReviews} />
             <AverageRatingCard value={stats.averageRating} />
             <PropertiesCard value={Object.keys(stats.reviewsByListing).length} />
+          </div>
+        )}
+
+        {/* Insights Section - Property Performance and Trends */}
+        {stats && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <PropertyPerformance reviewsByListing={stats.reviewsByListing} />
+            <CategoryBreakdown reviewsByCategory={stats.reviewsByCategory} />
+          </div>
+        )}
+
+        {/* Trends Chart */}
+        {stats && stats.recentTrends.length > 0 && (
+          <div className="mb-8">
+            <TrendsChart trends={stats.recentTrends} />
+          </div>
+        )}
+
+        {/* Recurring Issues Detection */}
+        {stats && (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <AlertCircle className="w-5 h-5 text-orange-600" />
+              <h3 className="text-lg font-semibold text-gray-900">Insights & Recommendations</h3>
+            </div>
+            <div className="space-y-3">
+              {/* Find categories with low ratings */}
+              {Object.entries(stats.reviewsByCategory)
+                .filter(([_, data]) => data.averageRating < 7)
+                .map(([category, data]) => (
+                  <div key={category} className="flex items-start gap-3 p-3 bg-orange-50 rounded-lg">
+                    <AlertCircle className="w-5 h-5 text-orange-600 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900 capitalize">
+                        {category.replace('_', ' ')} needs attention
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Average rating: {data.averageRating.toFixed(1)}/10 from {data.count} review
+                        {data.count !== 1 ? 's' : ''}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              {/* Show if no issues */}
+              {Object.values(stats.reviewsByCategory).every(data => data.averageRating >= 7) && (
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                  <TrendingUp className="w-5 h-5 text-green-600" />
+                  <p className="text-gray-700">
+                    All categories are performing well! Keep up the great work.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 

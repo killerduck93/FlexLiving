@@ -4,6 +4,9 @@ import { HostawayReview, NormalizedReview } from '@/types/review';
 import { normalizeReview } from '@/lib/reviewUtils';
 import { getDisplayStatus } from '@/lib/displayStatus';
 
+// Force dynamic rendering for API route (uses request.url)
+export const dynamic = 'force-dynamic';
+
 /**
  * Fetches reviews from Hostaway API
  * 
@@ -71,11 +74,13 @@ export async function GET(request: Request) {
       filteredReviews = filteredReviews.filter(r => r.listingName === listingName);
     }
     
-    // Filter by rating (matches the integer part of the rating)
+    // Filter by rating (matches star rating: 1-5 scale)
+    // Converts 1-10 scale to 1-5 star scale for filtering
     if (rating !== undefined) {
       filteredReviews = filteredReviews.filter(r => {
         const reviewRating = r.rating || r.averageCategoryRating;
-        return Math.floor(reviewRating) === rating;
+        const starRating = Math.floor(reviewRating / 2); // Convert 1-10 to 1-5
+        return starRating === rating;
       });
     }
     

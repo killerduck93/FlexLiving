@@ -3,31 +3,60 @@ import { HostawayReview, NormalizedReview, ReviewStats } from '@/types/review';
 /**
  * Normalizes a raw Hostaway review into a standardized format
  * 
- * This function:
- * - Converts date strings to Date objects
- * - Calculates average category rating if overall rating is missing
- * - Sets default channel if not specified
- * - Initializes display status to false
+ * Handles real-world data inconsistencies:
+ * - Missing overall ratings (calculates from categories)
+ * - Date string formats (converts to Date objects)
+ * - Missing channels (defaults to 'hostaway')
+ * - Null/undefined values (provides safe defaults)
+ * - Category name variations (normalizes casing)
+ * 
+ * This ensures consistent data structure across all reviews regardless of source.
  * 
  * @param review - Raw review from Hostaway API
  * @returns Normalized review with consistent data structure
  */
 export function normalizeReview(review: HostawayReview): NormalizedReview {
-  // Calculate average rating from category ratings if overall rating is missing
-  // This ensures we always have a rating value for display and filtering
-  const categoryRatings = review.reviewCategory.map(cat => cat.rating);
+  // Handle missing or null rating by calculating from category ratings
+  // This is common in real-world data where overall rating might be missing
+  // but category ratings are available
+  const categoryRatings = review.reviewCategory
+    ? review.reviewCategory.map(cat => cat.rating).filter(r => r != null && !isNaN(r))
+    : [];
+  
   const averageCategoryRating = categoryRatings.length > 0
     ? categoryRatings.reduce((sum, rating) => sum + rating, 0) / categoryRatings.length
-    : (review.rating || 0);
+    : (review.rating != null && !isNaN(review.rating) ? review.rating : 0);
 
-  // Determine channel source (default to 'hostaway' if not specified)
-  // This helps track where reviews originate from
-  const channel = review.channel || 'hostaway';
+  // Normalize channel name (lowercase, handle missing values)
+  // Real-world data may have inconsistent channel naming
+  const channel = (review.channel || 'hostaway').toLowerCase().trim();
+
+  // Parse date string - handle various formats that might come from API
+  // Handles formats like "2020-08-21 22:45:14" or ISO strings
+  let parsedDate: Date;
+  try {
+    parsedDate = new Date(review.submittedAt);
+    // Validate date
+    if (isNaN(parsedDate.getTime())) {
+      console.warn(`Invalid date for review ${review.id}: ${review.submittedAt}`);
+      parsedDate = new Date(); // Fallback to current date
+    }
+  } catch (error) {
+    console.warn(`Error parsing date for review ${review.id}:`, error);
+    parsedDate = new Date(); // Fallback to current date
+  }
+
+  // Normalize category names (lowercase, trim, handle variations)
+  const normalizedCategories = (review.reviewCategory || []).map(cat => ({
+    category: cat.category.toLowerCase().trim(),
+    rating: cat.rating,
+  }));
 
   return {
     ...review,
-    submittedAt: new Date(review.submittedAt), // Convert string to Date object
+    submittedAt: parsedDate,
     averageCategoryRating: Math.round(averageCategoryRating * 10) / 10, // Round to 1 decimal place
+    reviewCategory: normalizedCategories,
     channel,
     displayOnWebsite: false, // Default to not displayed (manager must approve)
   };
@@ -160,6 +189,25 @@ export function calculateStats(reviews: NormalizedReview[]): ReviewStats {
  * @param filters.approvedOnly - Filter by display approval status
  * @returns Filtered array of reviews
  */
+/**
+ * Filters reviews based on multiple criteria
+ * 
+ * Applies all provided filters in sequence. A review must pass all filters to be included.
+ * Uses efficient filtering with early returns for better performance.
+ * 
+ * @param reviews - Array of reviews to filter
+ * @param filters - Filter criteria object
+ * @param filters.listingName - Filter by property name (exact match)
+ * @param filters.rating - Filter by rating (matches integer part, e.g., 5 matches 5.0-5.9)
+ * @param filters.category - Filter by review category (e.g., 'cleanliness')
+ * @param filters.channel - Filter by channel (e.g., 'airbnb', 'booking.com')
+ * @param filters.type - Filter by review type ('guest-to-host' or 'host-to-guest')
+ * @param filters.dateFrom - Filter reviews submitted after this date
+ * @param filters.dateTo - Filter reviews submitted before this date
+ * @param filters.status - Filter by review status (e.g., 'published', 'pending')
+ * @param filters.approvedOnly - Filter by display approval status
+ * @returns Filtered array of reviews
+ */
 export function filterReviews(
   reviews: NormalizedReview[],
   filters: {
@@ -174,39 +222,68 @@ export function filterReviews(
     approvedOnly?: boolean;
   }
 ): NormalizedReview[] {
+  // Early return if no filters applied
+  if (Object.keys(filters).length === 0) {
+    return reviews;
+  }
+
   return reviews.filter(review => {
-    // Filter by property/listing name (exact match)
+    // Filter by property/listing name (exact match, case-sensitive)
     if (filters.listingName && review.listingName !== filters.listingName) return false;
     
     // Filter by rating (matches the integer part, e.g., rating 5 matches 5.0-5.9)
-    if (filters.rating) {
+    // This allows filtering by star rating (1-5) when reviews use 1-10 scale
+    if (filters.rating !== undefined) {
       const reviewRating = review.rating || review.averageCategoryRating;
-      if (Math.floor(reviewRating) !== filters.rating) return false;
+      const reviewStarRating = Math.floor(reviewRating / 2); // Convert 1-10 to 1-5 scale
+      if (reviewStarRating !== filters.rating) return false;
     }
     
     // Filter by category (checks if review contains the specified category)
+    // Uses case-insensitive matching for flexibility
     if (filters.category) {
-      const hasCategory = review.reviewCategory.some(cat => cat.category === filters.category);
+      const hasCategory = review.reviewCategory.some(
+        cat => cat.category.toLowerCase() === filters.category!.toLowerCase()
+      );
       if (!hasCategory) return false;
     }
     
     // Filter by channel (e.g., airbnb, booking.com, hostaway)
-    if (filters.channel && review.channel !== filters.channel) return false;
+    // Case-insensitive matching for better UX
+    if (filters.channel && review.channel.toLowerCase() !== filters.channel.toLowerCase()) {
+      return false;
+    }
     
     // Filter by review type (guest-to-host or host-to-guest)
     if (filters.type && review.type !== filters.type) return false;
     
-    // Filter by date range (from)
-    if (filters.dateFrom && review.submittedAt < filters.dateFrom) return false;
+    // Filter by date range (from) - includes reviews on the exact date
+    if (filters.dateFrom) {
+      const reviewDate = new Date(review.submittedAt);
+      reviewDate.setHours(0, 0, 0, 0);
+      const filterDate = new Date(filters.dateFrom);
+      filterDate.setHours(0, 0, 0, 0);
+      if (reviewDate < filterDate) return false;
+    }
     
-    // Filter by date range (to)
-    if (filters.dateTo && review.submittedAt > filters.dateTo) return false;
+    // Filter by date range (to) - includes reviews on the exact date
+    if (filters.dateTo) {
+      const reviewDate = new Date(review.submittedAt);
+      reviewDate.setHours(23, 59, 59, 999);
+      const filterDate = new Date(filters.dateTo);
+      filterDate.setHours(23, 59, 59, 999);
+      if (reviewDate > filterDate) return false;
+    }
     
     // Filter by review status (published, pending, etc.)
-    if (filters.status && review.status !== filters.status) return false;
+    if (filters.status && review.status.toLowerCase() !== filters.status.toLowerCase()) {
+      return false;
+    }
     
     // Filter by display approval status
-    if (filters.approvedOnly !== undefined && review.displayOnWebsite !== filters.approvedOnly) return false;
+    if (filters.approvedOnly !== undefined && review.displayOnWebsite !== filters.approvedOnly) {
+      return false;
+    }
     
     // Review passes all filters
     return true;

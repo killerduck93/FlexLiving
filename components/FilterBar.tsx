@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Filter, X } from 'lucide-react';
 import { ReviewFilters } from '@/types/review';
 
@@ -78,7 +78,7 @@ export default function FilterBar({ listings, channels, categories, onFilterChan
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Rating
+              Rating (Stars)
             </label>
             <select
               value={filters.rating?.toString() || ''}
@@ -86,11 +86,11 @@ export default function FilterBar({ listings, channels, categories, onFilterChan
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">All Ratings</option>
-              <option value="5">5 Stars</option>
-              <option value="4">4 Stars</option>
-              <option value="3">3 Stars</option>
-              <option value="2">2 Stars</option>
-              <option value="1">1 Star</option>
+              <option value="5">⭐⭐⭐⭐⭐ 5 Stars (9.0-10.0)</option>
+              <option value="4">⭐⭐⭐⭐ 4 Stars (7.0-8.9)</option>
+              <option value="3">⭐⭐⭐ 3 Stars (5.0-6.9)</option>
+              <option value="2">⭐⭐ 2 Stars (3.0-4.9)</option>
+              <option value="1">⭐ 1 Star (1.0-2.9)</option>
             </select>
           </div>
 
