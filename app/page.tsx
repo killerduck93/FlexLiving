@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Dashboard from '@/app/dashboard/page';
+import Dashboard from '@/components/Dashboard';
 import PublicReviews from '@/components/PublicReviews';
 import { NormalizedReview } from '@/types/review';
 
