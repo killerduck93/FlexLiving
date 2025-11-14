@@ -1,84 +1,84 @@
-# 🚀 Guida al Deployment su Vercel
+# 🚀 Vercel Deployment Guide
 
-## Prerequisiti
+## Prerequisites
 
-- ✅ Codice pushato su GitHub: https://github.com/killerduck93/FlexLiving
-- ✅ Account Vercel (puoi crearlo con GitHub)
+- ✅ Code pushed to GitHub: https://github.com/killerduck93/FlexLiving
+- ✅ Vercel account (you can create it with GitHub)
 
-## Metodo 1: Deploy via Dashboard Vercel (Raccomandato)
+## Method 1: Deploy via Vercel Dashboard (Recommended)
 
-### Passo 1: Accedi a Vercel
+### Step 1: Access Vercel
 
-1. Vai su [vercel.com](https://vercel.com)
-2. Clicca "Sign Up" o "Log In"
-3. Scegli "Continue with GitHub" per collegare il tuo account
+1. Go to [vercel.com](https://vercel.com)
+2. Click "Sign Up" or "Log In"
+3. Choose "Continue with GitHub" to link your account
 
-### Passo 2: Crea Nuovo Progetto
+### Step 2: Create New Project
 
-1. Dalla dashboard, clicca "Add New..." → "Project"
-2. Cerca il repository `killerduck93/FlexLiving`
-3. Clicca "Import"
+1. From the dashboard, click "Add New..." → "Project"
+2. Search for the repository `killerduck93/FlexLiving`
+3. Click "Import"
 
-### Passo 3: Configura il Progetto
+### Step 3: Configure the Project
 
-Vercel rileverà automaticamente:
+Vercel will automatically detect:
 - **Framework Preset:** Next.js
 - **Build Command:** `next build`
 - **Output Directory:** `.next`
 - **Install Command:** `npm install`
 
-**Non serve cambiare nulla!** Clicca "Deploy"
+**No need to change anything!** Click "Deploy"
 
-### Passo 4: Attendi il Deploy
+### Step 4: Wait for Deployment
 
-- Il deploy richiede 2-3 minuti
-- Vercel mostrerà i log in tempo reale
-- Al termine, vedrai "Congratulations! Your project has been deployed"
+- Deployment takes 2-3 minutes
+- Vercel will show logs in real-time
+- At the end, you'll see "Congratulations! Your project has been deployed"
 
-### Passo 5: Ottieni l'URL
+### Step 5: Get the URL
 
-Vercel ti darà un URL tipo:
+Vercel will give you a URL like:
 - `https://flex-living.vercel.app`
-- Oppure un URL personalizzato se configurato
+- Or a custom URL if configured
 
-**Questo è il tuo URL live!** 🎉
+**This is your live URL!** 🎉
 
 ---
 
-## Metodo 2: Deploy via Vercel CLI
+## Method 2: Deploy via Vercel CLI
 
-### Passo 1: Installa Vercel CLI
+### Step 1: Install Vercel CLI
 
 ```bash
 npm i -g vercel
 ```
 
-### Passo 2: Login
+### Step 2: Login
 
 ```bash
 vercel login
 ```
 
-Ti chiederà di autenticarti via browser.
+It will ask you to authenticate via browser.
 
-### Passo 3: Deploy
+### Step 3: Deploy
 
-Dalla cartella del progetto:
+From the project folder:
 
 ```bash
 cd FlexLiving
 vercel
 ```
 
-Rispondi alle domande:
+Answer the questions:
 - **Set up and deploy?** → Y
-- **Which scope?** → (seleziona il tuo account)
+- **Which scope?** → (select your account)
 - **Link to existing project?** → N
-- **Project name?** → flex-living (o lascia default)
+- **Project name?** → flex-living (or leave default)
 - **Directory?** → ./
 - **Override settings?** → N
 
-### Passo 4: Deploy Production
+### Step 4: Deploy to Production
 
 ```bash
 vercel --prod
@@ -86,21 +86,21 @@ vercel --prod
 
 ---
 
-## Environment Variables (Opzionale)
+## Environment Variables (Optional)
 
-Se vuoi usare le API reali in futuro:
+If you want to use real APIs in the future:
 
 ### Via Dashboard:
 
-1. Vai su Project Settings → Environment Variables
-2. Aggiungi:
+1. Go to Project Settings → Environment Variables
+2. Add:
    - **Key:** `HOSTAWAY_API_KEY`
-   - **Value:** (la tua chiave API)
+   - **Value:** (your API key)
    - **Environment:** Production, Preview, Development
-3. Clicca "Save"
-4. Aggiungi anche:
+3. Click "Save"
+4. Also add:
    - **Key:** `HOSTAWAY_ACCOUNT_ID`
-   - **Value:** (il tuo account ID)
+   - **Value:** (your account ID)
 
 ### Via CLI:
 
@@ -111,45 +111,45 @@ vercel env add HOSTAWAY_ACCOUNT_ID
 
 ---
 
-## Verifica del Deploy
+## Deployment Verification
 
 ### Test 1: Homepage
 
-1. Vai sul tuo URL Vercel
-2. Verifica che la pagina carichi
-3. Verifica che vedi "Flex Living Reviews"
+1. Go to your Vercel URL
+2. Verify that the page loads
+3. Verify that you see "Flex Living Reviews"
 
 ### Test 2: Dashboard
 
-1. Clicca su "Manager Dashboard"
-2. Verifica che le statistiche si carichino
-3. Verifica che le recensioni siano visibili
+1. Click on "Manager Dashboard"
+2. Verify that statistics load
+3. Verify that reviews are visible
 
 ### Test 3: API Endpoints
 
-1. Vai su `https://[tuo-url].vercel.app/api/reviews/hostaway`
-2. Verifica che restituisca JSON valido
-3. Prova anche `/api/reviews/public` e `/api/reviews/stats`
+1. Go to `https://[your-url].vercel.app/api/reviews/hostaway`
+2. Verify that it returns valid JSON
+3. Also try `/api/reviews/public` and `/api/reviews/stats`
 
 ### Test 4: Public View
 
-1. Clicca su "Public View"
-2. Verifica che le recensioni approvate siano visibili
+1. Click on "Public View"
+2. Verify that approved reviews are visible
 
 ### Test 5: Mobile
 
-1. Apri l'URL su mobile
-2. Verifica che il design sia responsive
+1. Open the URL on mobile
+2. Verify that the design is responsive
 
 ---
 
-## Custom Domain (Opzionale)
+## Custom Domain (Optional)
 
-Se vuoi un dominio personalizzato:
+If you want a custom domain:
 
-1. Vai su Project Settings → Domains
-2. Aggiungi il tuo dominio
-3. Segui le istruzioni per configurare DNS
+1. Go to Project Settings → Domains
+2. Add your domain
+3. Follow the instructions to configure DNS
 
 ---
 
@@ -157,51 +157,51 @@ Se vuoi un dominio personalizzato:
 
 ### Build Fails
 
-**Errore:** "Module not found"
+**Error:** "Module not found"
 
-**Soluzione:**
-- Verifica che `package.json` contenga tutte le dipendenze
-- Controlla i log di build per errori specifici
+**Solution:**
+- Verify that `package.json` contains all dependencies
+- Check build logs for specific errors
 
-**Errore:** "TypeScript errors"
+**Error:** "TypeScript errors"
 
-**Soluzione:**
-- Verifica che non ci siano errori TypeScript in locale
-- Esegui `npm run build` localmente per testare
+**Solution:**
+- Verify that there are no TypeScript errors locally
+- Run `npm run build` locally to test
 
 ### Runtime Errors
 
-**Errore:** "API route not found"
+**Error:** "API route not found"
 
-**Soluzione:**
-- Verifica che le route API siano nella cartella `app/api/`
-- Controlla che i nomi dei file siano corretti
+**Solution:**
+- Verify that API routes are in the `app/api/` folder
+- Check that file names are correct
 
-**Errore:** "Environment variable not found"
+**Error:** "Environment variable not found"
 
-**Soluzione:**
-- Verifica che le variabili d'ambiente siano configurate in Vercel
-- Riavvia il deploy dopo aver aggiunto le variabili
+**Solution:**
+- Verify that environment variables are configured in Vercel
+- Restart deployment after adding variables
 
 ### Performance Issues
 
-**Lentezza nel caricamento:**
+**Slow loading:**
 
-1. Verifica che le immagini siano ottimizzate
-2. Controlla la dimensione del bundle
-3. Usa Vercel Analytics per identificare problemi
+1. Verify that images are optimized
+2. Check bundle size
+3. Use Vercel Analytics to identify issues
 
 ---
 
 ## Continuous Deployment
 
-Vercel deploya automaticamente ad ogni push su GitHub:
+Vercel automatically deploys on every GitHub push:
 
-1. Push su `main` → Deploy Production
-2. Push su altri branch → Deploy Preview
-3. Pull Request → Deploy Preview con URL unico
+1. Push to `main` → Production Deploy
+2. Push to other branches → Preview Deploy
+3. Pull Request → Preview Deploy with unique URL
 
-**Non serve fare nulla!** Vercel gestisce tutto automaticamente.
+**No action needed!** Vercel handles everything automatically.
 
 ---
 
@@ -209,59 +209,58 @@ Vercel deploya automaticamente ad ogni push su GitHub:
 
 ### Vercel Analytics
 
-1. Vai su Project Settings → Analytics
-2. Abilita Vercel Analytics (gratuito per hobby plan)
-3. Monitora performance e errori
+1. Go to Project Settings → Analytics
+2. Enable Vercel Analytics (free for hobby plan)
+3. Monitor performance and errors
 
 ### Logs
 
-1. Vai su Deployments
-2. Clicca su un deployment
-3. Vai su "Functions" per vedere i log delle API routes
+1. Go to Deployments
+2. Click on a deployment
+3. Go to "Functions" to see API route logs
 
 ---
 
 ## Rollback
 
-Se qualcosa va storto:
+If something goes wrong:
 
-1. Vai su Deployments
-2. Trova il deployment precedente che funzionava
-3. Clicca "..." → "Promote to Production"
+1. Go to Deployments
+2. Find the previous deployment that worked
+3. Click "..." → "Promote to Production"
 
 ---
 
 ## Best Practices
 
-1. **Testa sempre in locale prima di fare push**
-2. **Usa Preview Deployments per testare PR**
-3. **Monitora i log dopo ogni deploy**
-4. **Mantieni le variabili d'ambiente sicure**
-5. **Usa Vercel Analytics per ottimizzare**
+1. **Always test locally before pushing**
+2. **Use Preview Deployments to test PRs**
+3. **Monitor logs after each deployment**
+4. **Keep environment variables secure**
+5. **Use Vercel Analytics to optimize**
 
 ---
 
-## Supporto
+## Support
 
-- **Documentazione Vercel:** https://vercel.com/docs
+- **Vercel Documentation:** https://vercel.com/docs
 - **Community:** https://github.com/vercel/vercel/discussions
 - **Status:** https://vercel-status.com
 
 ---
 
-## Checklist Finale
+## Final Checklist
 
-- [ ] Codice pushato su GitHub
-- [ ] Deploy completato su Vercel
-- [ ] URL live funzionante
-- [ ] Tutti i test passano su URL live
-- [ ] Environment variables configurate (se necessario)
-- [ ] Custom domain configurato (opzionale)
-- [ ] Monitoring attivo (opzionale)
+- [ ] Code pushed to GitHub
+- [ ] Deployment completed on Vercel
+- [ ] Live URL working
+- [ ] All tests pass on live URL
+- [ ] Environment variables configured (if needed)
+- [ ] Custom domain configured (optional)
+- [ ] Monitoring active (optional)
 
 ---
 
-**🎉 Congratulazioni! La tua app è live!**
+**🎉 Congratulations! Your app is live!**
 
-Condividi l'URL nella submission dell'assessment.
-
+Share the URL in your assessment submission.

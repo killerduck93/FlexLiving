@@ -8,40 +8,70 @@ import { TotalReviewsCard, AverageRatingCard, PropertiesCard } from '@/component
 import { ReviewFilters } from '@/types/review';
 import { Search, SortAsc, SortDesc } from 'lucide-react';
 
+/**
+ * Sort field options for review sorting
+ */
 type SortField = 'date' | 'rating' | 'listing';
+
+/**
+ * Sort direction (ascending or descending)
+ */
 type SortDirection = 'asc' | 'desc';
 
+/**
+ * Manager Dashboard Component
+ * 
+ * Main dashboard interface for property managers to:
+ * - View real-time statistics (total reviews, average rating, properties count)
+ * - Filter reviews by property, channel, rating, category, type, and status
+ * - Search reviews by guest name, content, or property name
+ * - Sort reviews by date, rating, or property name
+ * - Toggle review display status (approve/hide for public website)
+ * - Analyze property performance and trends
+ * 
+ * @returns JSX element representing the manager dashboard
+ */
 export default function Dashboard() {
-  const [reviews, setReviews] = useState<NormalizedReview[]>([]);
-  const [filteredReviews, setFilteredReviews] = useState<NormalizedReview[]>([]);
-  const [stats, setStats] = useState<ReviewStats | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState<ReviewFilters>({});
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortField, setSortField] = useState<SortField>('date');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  // State management for reviews and UI
+  const [reviews, setReviews] = useState<NormalizedReview[]>([]); // All reviews from API
+  const [filteredReviews, setFilteredReviews] = useState<NormalizedReview[]>([]); // Reviews after filtering/sorting
+  const [stats, setStats] = useState<ReviewStats | null>(null); // Aggregated statistics
+  const [loading, setLoading] = useState(true); // Loading state
+  const [filters, setFilters] = useState<ReviewFilters>({}); // Active filter criteria
+  const [searchQuery, setSearchQuery] = useState(''); // Search text input
+  const [sortField, setSortField] = useState<SortField>('date'); // Current sort field
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc'); // Current sort direction
 
+  // Fetch all data on component mount
   useEffect(() => {
     fetchReviews();
     fetchStats();
     fetchDisplayStatus();
   }, []);
 
+  /**
+   * Fetches all reviews from the Hostaway API endpoint
+   * Updates both reviews and filteredReviews state
+   */
   const fetchReviews = async () => {
     try {
       const response = await fetch('/api/reviews/hostaway');
       const data = await response.json();
       if (data.success) {
         setReviews(data.data);
-        setFilteredReviews(data.data);
+        setFilteredReviews(data.data); // Initialize filtered reviews with all reviews
       }
     } catch (error) {
       console.error('Error fetching reviews:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); // Always set loading to false, even on error
     }
   };
 
+  /**
+   * Fetches aggregated statistics for the dashboard
+   * Includes total reviews, average rating, category breakdowns, etc.
+   */
   const fetchStats = async () => {
     try {
       const response = await fetch('/api/reviews/stats');
@@ -54,12 +84,18 @@ export default function Dashboard() {
     }
   };
 
+  /**
+   * Fetches display status for all reviews (which are approved for public display)
+   * Updates reviews state with display status information
+   */
   const fetchDisplayStatus = async () => {
     try {
       const response = await fetch('/api/reviews/approve');
       const data = await response.json();
       if (data.status === 'success' && data.reviews) {
+        // Create a map of review ID to display status for quick lookup
         const displayMap = new Map(data.reviews.map((r: any) => [r.id, r.displayOnWebsite]));
+        // Update reviews with their display status
         setReviews(prev => prev.map(r => ({
           ...r,
           displayOnWebsite: displayMap.get(r.id) || false,
@@ -70,39 +106,58 @@ export default function Dashboard() {
     }
   };
 
+  /**
+   * Handles filter changes from the FilterBar component
+   * Uses useCallback to prevent unnecessary re-renders
+   */
   const handleFilterChange = useCallback((newFilters: ReviewFilters) => {
     setFilters(newFilters);
   }, []);
 
+  /**
+   * Effect hook that applies filters, search, and sorting whenever dependencies change
+   * This ensures the filtered reviews list is always up-to-date
+   */
   useEffect(() => {
+    // Start with a copy of all reviews
     let filtered = [...reviews];
 
-    // Apply filters
+    // Apply property/listing filter
     if (filters.listingName) {
       filtered = filtered.filter(r => r.listingName === filters.listingName);
     }
+    
+    // Apply rating filter (matches integer part, e.g., 5 matches 5.0-5.9)
     if (filters.rating !== undefined) {
       filtered = filtered.filter(r => {
         const rating = r.rating || r.averageCategoryRating;
         return Math.floor(rating) === filters.rating;
       });
     }
+    
+    // Apply category filter (checks if review contains the category)
     if (filters.category) {
       filtered = filtered.filter(r =>
         r.reviewCategory.some(cat => cat.category === filters.category)
       );
     }
+    
+    // Apply channel filter (airbnb, booking.com, etc.)
     if (filters.channel) {
       filtered = filtered.filter(r => r.channel === filters.channel);
     }
+    
+    // Apply review type filter (guest-to-host or host-to-guest)
     if (filters.type) {
       filtered = filtered.filter(r => r.type === filters.type);
     }
+    
+    // Apply status filter (published, pending, etc.)
     if (filters.status) {
       filtered = filtered.filter(r => r.status === filters.status);
     }
 
-    // Apply search
+    // Apply search query (searches guest name, review text, and property name)
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(r =>
@@ -112,14 +167,15 @@ export default function Dashboard() {
       );
     }
 
-    // Apply sorting
+    // Apply sorting based on selected field and direction
     filtered.sort((a, b) => {
       let aValue: any;
       let bValue: any;
 
+      // Get the value to compare based on sort field
       switch (sortField) {
         case 'date':
-          aValue = a.submittedAt.getTime();
+          aValue = a.submittedAt.getTime(); // Convert date to timestamp for comparison
           bValue = b.submittedAt.getTime();
           break;
         case 'rating':
@@ -127,21 +183,30 @@ export default function Dashboard() {
           bValue = b.rating || b.averageCategoryRating;
           break;
         case 'listing':
-          aValue = a.listingName;
+          aValue = a.listingName; // String comparison
           bValue = b.listingName;
           break;
         default:
           return 0;
       }
 
+      // Compare values based on sort direction
       if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
       if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
       return 0;
     });
 
+    // Update filtered reviews state
     setFilteredReviews(filtered);
   }, [reviews, filters, searchQuery, sortField, sortDirection]);
 
+  /**
+   * Toggles the display status of a review (approve/hide for public website)
+   * Makes API call to update status and optimistically updates UI
+   * 
+   * @param reviewId - ID of the review to toggle
+   * @param displayOnWebsite - New display status (true = show on website, false = hide)
+   */
   const handleToggleDisplay = async (reviewId: number, displayOnWebsite: boolean) => {
     try {
       const response = await fetch(`/api/reviews/${reviewId}/display`, {
@@ -152,6 +217,7 @@ export default function Dashboard() {
         body: JSON.stringify({ displayOnWebsite }),
       });
 
+      // Update local state if API call succeeds
       if (response.ok) {
         setReviews(prev => prev.map(r =>
           r.id === reviewId ? { ...r, displayOnWebsite } : r
@@ -162,16 +228,25 @@ export default function Dashboard() {
     }
   };
 
+  // Extract unique values for filter dropdowns
   const listings = Array.from(new Set(reviews.map(r => r.listingName)));
   const channels = Array.from(new Set(reviews.map(r => r.channel)));
   const categories = Array.from(new Set(
     reviews.flatMap(r => r.reviewCategory.map(c => c.category))
   ));
 
+  /**
+   * Handles sort button clicks
+   * If clicking the same field, toggles direction. Otherwise, sets new field with default desc direction.
+   * 
+   * @param field - Field to sort by
+   */
   const handleSort = (field: SortField) => {
     if (sortField === field) {
+      // Toggle direction if same field
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
+      // Set new field with default descending direction
       setSortField(field);
       setSortDirection('desc');
     }

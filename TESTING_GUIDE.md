@@ -1,37 +1,61 @@
-# 🧪 Guida Completa per Testare l'Applicazione
+# 🧪 Complete Testing Guide for the Application
 
-## Metodo 1: Test Locale (Raccomandato)
+## Method 1: Quick Test with Artifact (Fastest)
 
-### Passo 1: Prepara il Tuo Computer
+### Use the First Artifact I Created
+
+1. Look at **Artifact #1** above (the one with the title "Flex Living Reviews Dashboard")
+
+2. Click on the preview button in the artifact
+
+3. You can interact directly with the application!
+
+### What to Test in the Artifact:
+
+- ✅ Click on "Manager Dashboard" and "Public View" to switch views
+
+- ✅ Try the filters (Property, Channel, Sort By, Min Rating)
+
+- ✅ Click on the eye icon to hide/show reviews
+
+- ✅ Verify that the numbers in the statistics change
+
+- ✅ In Public View, see only reviews with the green eye icon
+
+---
+
+## Method 2: Local Installation (Complete)
+
+### Step 1: Prepare Your Computer
 
 ```bash
-# Verifica di avere Node.js installato
+# Verify you have Node.js installed
 node --version
-# Deve mostrare v18.0.0 o superiore
+# Must show v18.0.0 or higher
 
-# Se non hai Node.js, scaricalo da:
+# If you don't have Node.js, download it from:
 # https://nodejs.org/
 ```
 
-### Passo 2: Clona e Installa
+### Step 2: Clone and Install
 
 ```bash
-# Clona il repository
+# Clone the repository
 git clone https://github.com/killerduck93/FlexLiving.git
 cd FlexLiving
 
-# Installa le dipendenze
+# Install dependencies
 npm install
 ```
 
-### Passo 3: Avvia il Server
+### Step 3: Start the Server
 
 ```bash
-# Nel terminale, dalla cartella del progetto
+# In the terminal, from the project folder
 npm run dev
 ```
 
-Vedrai qualcosa tipo:
+You'll see something like:
 
 ```
   ▲ Next.js 14.0.4
@@ -39,294 +63,293 @@ Vedrai qualcosa tipo:
   - Ready in 2.3s
 ```
 
-### Passo 4: Apri il Browser
+### Step 4: Open the Browser
 
-1. Apri il browser
-2. Vai su: **http://localhost:3000**
-3. Dovresti vedere l'applicazione!
+1. Open your browser
+2. Go to: **http://localhost:3000**
+3. You should see the application!
 
 ---
 
-## 🎯 Test Checklist - Cosa Verificare
+## 🎯 Test Checklist - What to Verify
 
-### Test 1: Pagina Carica Correttamente ✅
+### Test 1: Page Loads Correctly ✅
 
-- [ ] La pagina si carica senza errori
-- [ ] Vedi l'header "Flex Living Reviews"
-- [ ] Vedi 3 card con statistiche (Total Reviews, Avg Rating, Properties)
-- [ ] Vedi i bottoni "Manager Dashboard" e "Public View"
+- [ ] The page loads without errors
+- [ ] You see the header "Flex Living Reviews"
+- [ ] You see 3 cards with statistics (Total Reviews, Avg Rating, Properties)
+- [ ] You see the buttons "Manager Dashboard" and "Public View"
 
-### Test 2: Statistiche Corrette ✅
+### Test 2: Statistics Are Correct ✅
 
-Verifica questi numeri (possono variare leggermente):
+Verify these numbers (may vary slightly):
 
 - [ ] Total Reviews: **10**
-- [ ] Avg Rating: circa **8.5-8.8**
+- [ ] Avg Rating: approximately **8.5-8.8**
 - [ ] Properties: **3-4** (Shoreditch Heights, Camden Lock, Notting Hill Gate, Spitalfields)
 
-### Test 3: Manager Dashboard Funziona ✅
+### Test 3: Manager Dashboard Works ✅
 
-1. Clicca su "Manager Dashboard" (se non sei già lì)
-2. Verifica che vedi:
-   - [ ] Statistiche in alto
-   - [ ] Barra filtri
-   - [ ] Barra di ricerca
-   - [ ] Lista di recensioni
+1. Click on "Manager Dashboard" (if you're not already there)
+2. Verify that you see:
+   - [ ] Statistics at the top
+   - [ ] Filter bar
+   - [ ] Search bar
+   - [ ] List of reviews
 
-### Test 4: Filtri Funzionano ✅
+### Test 4: Filters Work ✅
 
 #### Test Property Filter
 
-1. Clicca sul dropdown "Property" nei filtri
-2. Seleziona una proprietà (es. "2B N1 A - 29 Shoreditch Heights")
-3. Verifica: vedi solo le recensioni per quella proprietà
-4. Rimetti su "All Properties"
+1. Click on the "Property" dropdown in the filters
+2. Select a property (e.g., "2B N1 A - 29 Shoreditch Heights")
+3. Verify: you see only reviews for that property
+4. Set back to "All Properties"
 
 #### Test Channel Filter
 
-1. Clicca sul dropdown "Channel"
-2. Seleziona "airbnb"
-3. Verifica: vedi solo recensioni da Airbnb
-4. Seleziona "booking.com"
-5. Verifica: vedi solo recensioni da Booking.com
+1. Click on the "Channel" dropdown
+2. Select "airbnb"
+3. Verify: you see only reviews from Airbnb
+4. Select "booking.com"
+5. Verify: you see only reviews from Booking.com
 
 #### Test Rating Filter
 
-1. Clicca sul dropdown "Rating"
-2. Seleziona "5 Stars"
-3. Verifica: vedi solo recensioni con rating 5
-4. Prova con altri rating
+1. Click on the "Rating" dropdown
+2. Select "5 Stars"
+3. Verify: you see only reviews with rating 5
+4. Try with other ratings
 
 #### Test Category Filter
 
-1. Clicca sul dropdown "Category"
-2. Seleziona una categoria (es. "cleanliness")
-3. Verifica: vedi solo recensioni con quella categoria
+1. Click on the "Category" dropdown
+2. Select a category (e.g., "cleanliness")
+3. Verify: you see only reviews with that category
 
-### Test 5: Sort Funziona ✅
+### Test 5: Sort Works ✅
 
-1. Clicca sui bottoni di sort (Date, Rating, Property)
-2. Verifica che le recensioni si riordinano
-3. Clicca di nuovo per invertire l'ordine
+1. Click on the sort buttons (Date, Rating, Property)
+2. Verify that reviews reorder
+3. Click again to reverse the order
 
-### Test 6: Search Funziona ✅
+### Test 6: Search Works ✅
 
-1. Nella barra di ricerca, digita un nome (es. "Sarah")
-2. Verifica: vedi solo recensioni che contengono "Sarah"
-3. Prova con altri termini (es. "Shoreditch", "amazing")
+1. In the search bar, type a name (e.g., "Sarah")
+2. Verify: you see only reviews that contain "Sarah"
+3. Try with other terms (e.g., "Shoreditch", "amazing")
 
-### Test 7: Toggle Display Funziona ✅
+### Test 7: Toggle Display Works ✅
 
-1. Trova una recensione con bottone "Display" (verde) o "Hide" (rosso)
-2. Clicca sul bottone
-3. Verifica: il bottone cambia colore e testo
-4. Il bordo della card cambia (verde se displayed, grigio se hidden)
+1. Find a review with "Display" (green) or "Hide" (red) button
+2. Click on the button
+3. Verify: the button changes color and text
+4. The card border changes (green if displayed, gray if hidden)
 
 ### Test 8: Public View ✅
 
-1. Clicca sul bottone "Public View" in alto a destra
-2. Verifica che vedi:
-   - [ ] Banner con "Flex Living Properties"
-   - [ ] Sezione "About"
-   - [ ] Sezione "Amenities" con 6 icone
-   - [ ] Sezione "Guest Reviews"
-3. Conta le recensioni: devono essere solo quelle con "Display" attivo
-4. Verifica che ogni recensione mostra:
-   - [ ] Avatar con iniziale del nome
-   - [ ] Nome ospite
-   - [ ] Data
-   - [ ] Stelle gialle
-   - [ ] Testo recensione
-   - [ ] Nome della proprietà in basso
+1. Click on the "Public View" button in the top right
+2. Verify that you see:
+   - [ ] Banner with "Flex Living Properties"
+   - [ ] "About" section
+   - [ ] "Amenities" section with 6 icons
+   - [ ] "Guest Reviews" section
+3. Count the reviews: they must be only those with "Display" active
+4. Verify that each review shows:
+   - [ ] Avatar with name initial
+   - [ ] Guest name
+   - [ ] Date
+   - [ ] Yellow stars
+   - [ ] Review text
+   - [ ] Property name at the bottom
 
 ### Test 9: Property Page ✅
 
-1. Vai su: `http://localhost:3000/property/2B-N1-A-29-Shoreditch-Heights`
-2. Verifica che vedi:
-   - [ ] Header con nome proprietà
-   - [ ] Immagine placeholder
-   - [ ] Sezione "About this property"
-   - [ ] Sezione "Amenities"
-   - [ ] Sezione "Guest Reviews" con solo recensioni approvate
+1. Go to: `http://localhost:3000/property/2B-N1-A-29-Shoreditch-Heights`
+2. Verify that you see:
+   - [ ] Header with property name
+   - [ ] Image placeholder
+   - [ ] "About this property" section
+   - [ ] "Amenities" section
+   - [ ] "Guest Reviews" section with only approved reviews
 
 ### Test 10: API Endpoints ✅
 
-Apri queste URL nel browser:
+Open these URLs in the browser:
 
 1. **http://localhost:3000/api/reviews/hostaway**
-   - Verifica: vedi JSON con `success: true` e array `data` con recensioni
-   - Ogni recensione ha: id, rating, publicReview, guestName, ecc.
+   - Verify: you see JSON with `success: true` and `data` array with reviews
+   - Each review has: id, rating, publicReview, guestName, etc.
 
 2. **http://localhost:3000/api/reviews/public**
-   - Verifica: vedi solo le recensioni con `displayOnWebsite: true`
+   - Verify: you see only reviews with `displayOnWebsite: true`
 
 3. **http://localhost:3000/api/reviews/stats**
-   - Verifica: vedi statistiche aggregate
+   - Verify: you see aggregated statistics
 
 ### Test 11: Responsive Design ✅
 
-1. Riduci la larghezza del browser (o usa DevTools mobile view)
-2. Verifica che:
-   - [ ] Le card si dispongono in colonna su mobile
-   - [ ] I filtri si impilano verticalmente
-   - [ ] Le recensioni rimangono leggibili
-   - [ ] Nella Public View, le recensioni vanno in 1 colonna
+1. Reduce the browser width (or use DevTools mobile view)
+2. Verify that:
+   - [ ] Cards arrange in a column on mobile
+   - [ ] Filters stack vertically
+   - [ ] Reviews remain readable
+   - [ ] In Public View, reviews go to 1 column
 
 ---
 
-## 🐛 Problemi Comuni e Soluzioni
+## 🐛 Common Problems and Solutions
 
-### Errore: "Module not found: lucide-react"
+### Error: "Module not found: lucide-react"
 
 ```bash
 npm install lucide-react
 ```
 
-### Errore: "Cannot find module @/components/..."
+### Error: "Cannot find module @/components/..."
 
-- Verifica di aver installato tutte le dipendenze: `npm install`
-- Verifica che la struttura delle cartelle sia corretta
+- Verify you have installed all dependencies: `npm install`
+- Verify that the folder structure is correct
 
-### Errore: "Cannot find module @/lib/..."
+### Error: "Cannot find module @/lib/..."
 
-- Verifica che la cartella `lib/` esista nella root
-- Verifica che i file TypeScript siano corretti
+- Verify that the `lib/` folder exists in the root
+- Verify that TypeScript files are correct
 
-### La pagina è bianca
+### Page is Blank
 
-1. Apri la Console del browser (F12)
-2. Guarda se ci sono errori rossi
-3. Verifica che tutti i file siano stati copiati correttamente
-4. Controlla il terminale dove hai lanciato `npm run dev` per errori
+1. Open the browser Console (F12)
+2. Look for red errors
+3. Verify that all files have been copied correctly
+4. Check the terminal where you ran `npm run dev` for errors
 
-### I filtri non funzionano
+### Filters Don't Work
 
-- Controlla che il file `FilterBar.tsx` sia stato copiato correttamente
-- Riavvia il server: Ctrl+C nel terminale, poi `npm run dev`
-- Verifica la console del browser per errori JavaScript
+- Check that the `FilterBar.tsx` file has been copied correctly
+- Restart the server: Ctrl+C in the terminal, then `npm run dev`
+- Check the browser console for JavaScript errors
 
-### Il toggle display non funziona
+### Toggle Display Doesn't Work
 
-- Verifica che l'API endpoint `/api/reviews/[id]/display` funzioni
-- Controlla la console del browser per errori di fetch
-- Verifica la Network tab (F12 → Network) per vedere le chiamate API
-
----
-
-## 📱 Test su Mobile (Opzionale)
-
-### Con il telefono sulla stessa rete WiFi:
-
-1. Nel terminale, trova l'IP del tuo computer:
-   - Windows: `ipconfig` → cerca "IPv4 Address"
-   - Mac/Linux: `ifconfig` o `ip addr`
-
-2. Sul telefono, apri il browser
-
-3. Vai su: `http://[TUO-IP]:3000`
-   - Esempio: `http://192.168.1.10:3000`
-
-4. Verifica che l'app funzioni correttamente su mobile
+- Verify that the API endpoint `/api/reviews/[id]/display` works
+- Check the browser console for fetch errors
+- Check the Network tab (F12 → Network) to see API calls
 
 ---
 
-## ✅ Checklist Finale Prima della Submission
+## 📱 Mobile Testing (Optional)
 
-- [ ] L'app si avvia senza errori (`npm run dev`)
-- [ ] Tutti i 11 test sopra funzionano
-- [ ] Le statistiche sono corrette
-- [ ] I filtri cambiano le recensioni visualizzate
-- [ ] Il toggle display funziona
-- [ ] La Public View mostra solo recensioni approvate
-- [ ] Gli API endpoints restituiscono JSON valido
-- [ ] Design responsive su mobile
-- [ ] Nessun errore nella console del browser
-- [ ] Nessun errore nel terminale
+### With Phone on the Same WiFi Network:
 
----
+1. In the terminal, find your computer's IP:
+   - Windows: `ipconfig` → look for "IPv4 Address"
+   - Mac/Linux: `ifconfig` or `ip addr`
 
-## 🚀 Pronto per il Deploy su Vercel
+2. On your phone, open the browser
 
-Una volta verificato che tutto funziona in locale, sei pronto per:
+3. Go to: `http://[YOUR-IP]:3000`
+   - Example: `http://192.168.1.10:3000`
 
-### 1. Push su GitHub (già fatto!)
-
-Il codice è già su GitHub: https://github.com/killerduck93/FlexLiving
-
-### 2. Deploy su Vercel
-
-1. Vai su [vercel.com](https://vercel.com)
-2. Clicca "Sign Up" o "Log In" (puoi usare GitHub)
-3. Clicca "New Project"
-4. Importa il repository `killerduck93/FlexLiving`
-5. Vercel rileverà automaticamente Next.js
-6. Clicca "Deploy"
-7. Attendi 2-3 minuti per il deploy
-
-### 3. Testa l'URL di Vercel
-
-1. Una volta completato, Vercel ti darà un URL tipo: `https://flex-living.vercel.app`
-2. Ripeti tutti i test sopra sull'URL live
-3. Verifica che funzioni da mobile
-4. Condividi l'URL nella submission
-
-### 4. Aggiungi Environment Variables (Opzionale)
-
-Se vuoi usare le API reali in futuro:
-
-1. Vai su Project Settings → Environment Variables
-2. Aggiungi:
-   - `HOSTAWAY_API_KEY` = (la tua chiave)
-   - `HOSTAWAY_ACCOUNT_ID` = (il tuo account ID)
+4. Verify that the app works correctly on mobile
 
 ---
 
-## 💡 Suggerimento Pro
+## ✅ Final Checklist Before Submission
 
-Registra un video di 2-3 minuti mentre fai questi test! Mostra:
+- [ ] The app starts without errors (`npm run dev`)
+- [ ] All 11 tests above work
+- [ ] Statistics are correct
+- [ ] Filters change the displayed reviews
+- [ ] Toggle display works
+- [ ] Public View shows only approved reviews
+- [ ] API endpoints return valid JSON
+- [ ] Responsive design on mobile
+- [ ] No errors in the browser console
+- [ ] No errors in the terminal
 
-1. Dashboard con filtri
-2. Toggle di una recensione
+---
+
+## 🚀 Ready for Vercel Deployment
+
+Once you've verified that everything works locally, you're ready for:
+
+### 1. Push to GitHub (Already Done!)
+
+The code is already on GitHub: https://github.com/killerduck93/FlexLiving
+
+### 2. Deploy to Vercel
+
+1. Go to [vercel.com](https://vercel.com)
+2. Click "Sign Up" or "Log In" (you can use GitHub)
+3. Click "New Project"
+4. Import the repository `killerduck93/FlexLiving`
+5. Vercel will automatically detect Next.js
+6. Click "Deploy"
+7. Wait 2-3 minutes for deployment
+
+### 3. Test the Vercel URL
+
+1. Once completed, Vercel will give you a URL like: `https://flex-living.vercel.app`
+2. Repeat all the tests above on the live URL
+3. Verify that it works from mobile
+4. Share the URL in your submission
+
+### 4. Add Environment Variables (Optional)
+
+If you want to use real APIs in the future:
+
+1. Go to Project Settings → Environment Variables
+2. Add:
+   - `HOSTAWAY_API_KEY` = (your key)
+   - `HOSTAWAY_ACCOUNT_ID` = (your account ID)
+
+---
+
+## 💡 Pro Tip
+
+Record a 2-3 minute video while doing these tests! Show:
+
+1. Dashboard with filters
+2. Toggle a review
 3. Public View
-4. Responsive su mobile
+4. Responsive on mobile
 
-Aggiungi il link al video nella tua submission - farà un'ottima impressione!
+Add the video link to your submission - it will make a great impression!
 
 ---
 
-## 📞 Debug Veloce
+## 📞 Quick Debug
 
-Se qualcosa non funziona, controlla:
+If something doesn't work, check:
 
-1. **Console del Browser** (F12 → Console)
-   - Cerca errori rossi
-   - Verifica che le chiamate API funzionino
+1. **Browser Console** (F12 → Console)
+   - Look for red errors
+   - Verify that API calls work
 
-2. **Terminale dove hai lanciato npm run dev**
-   - Cerca errori di compilazione
-   - Verifica che il server sia in esecuzione
+2. **Terminal where you ran npm run dev**
+   - Look for compilation errors
+   - Verify that the server is running
 
 3. **Network tab** (F12 → Network)
-   - Verifica che le chiamate API funzionino
-   - Controlla gli status code (dovrebbero essere 200)
+   - Verify that API calls work
+   - Check status codes (should be 200)
 
-4. **React DevTools** (estensione Chrome)
-   - Controlla lo state dei componenti
-   - Verifica che i dati siano caricati correttamente
+4. **React DevTools** (Chrome extension)
+   - Check component state
+   - Verify that data is loaded correctly
 
 ---
 
-## 🎉 Sei Pronto!
+## 🎉 You're Ready!
 
-Se tutti i test passano, l'applicazione è pronta per la submission!
+If all tests pass, the application is ready for submission!
 
-**Repository GitHub:** https://github.com/killerduck93/FlexLiving
+**GitHub Repository:** https://github.com/killerduck93/FlexLiving
 
-**Prossimi passi:**
-1. ✅ Codice completato e pushato
-2. ⏳ Deploy su Vercel
-3. ⏳ Test su URL live
-4. ⏳ Submission finale
+**Next Steps:**
+1. ✅ Code completed and pushed
+2. ⏳ Deploy to Vercel
+3. ⏳ Test on live URL
+4. ⏳ Final submission
 
-Buona fortuna con l'assessment! 🚀
-
+Good luck with the assessment! 🚀
