@@ -7,9 +7,9 @@
 
 ---
 
-## ✅ Verifica Formato Risposta API
+## ✅ API Response Format Verification
 
-L'applicazione gestisce correttamente il formato di risposta Hostaway:
+The application correctly handles the Hostaway API response format:
 
 ```json
 {
@@ -43,33 +43,33 @@ L'applicazione gestisce correttamente il formato di risposta Hostaway:
 }
 ```
 
-### ✅ Gestione Dati
+### ✅ Data Handling
 
-**Rating Null:**
-- ✅ Gestito: Se `rating: null`, calcola automaticamente dalla media delle categorie
-- ✅ Codice: `lib/reviewUtils.ts` - `normalizeReview()` (linee 22-28)
+**Null Rating:**
+- ✅ Handled: If `rating: null`, automatically calculates from category average
+- ✅ Code: `lib/reviewUtils.ts` - `normalizeReview()` (lines 22-28)
 
 **Date Format:**
-- ✅ Gestito: Parsing del formato `"2020-08-21 22:45:14"`
-- ✅ Codice: `lib/reviewUtils.ts` - `normalizeReview()` (linee 34-47)
+- ✅ Handled: Parses format `"2020-08-21 22:45:14"`
+- ✅ Code: `lib/reviewUtils.ts` - `normalizeReview()` (lines 34-47)
 
-**Categorie:**
-- ✅ Gestito: Normalizzazione nomi categorie (lowercase, trimmed)
-- ✅ Codice: `lib/reviewUtils.ts` - `normalizeReview()` (linee 49-53)
+**Categories:**
+- ✅ Handled: Normalizes category names (lowercase, trimmed)
+- ✅ Code: `lib/reviewUtils.ts` - `normalizeReview()` (lines 49-53)
 
-**Channel Mancante:**
-- ✅ Gestito: Default a `'hostaway'` se mancante
-- ✅ Codice: `lib/reviewUtils.ts` - `normalizeReview()` (linea 32)
+**Missing Channel:**
+- ✅ Handled: Defaults to `'hostaway'` if missing
+- ✅ Code: `lib/reviewUtils.ts` - `normalizeReview()` (line 32)
 
 ---
 
-## 🔧 Configurazione Credenziali
+## 🔧 Credentials Configuration
 
-### Opzione 1: Variabili d'Ambiente (Consigliato)
+### Option 1: Environment Variables (Recommended)
 
 #### Local Development
 
-Crea file `.env.local` nella root del progetto:
+Create `.env.local` file in project root:
 
 ```bash
 HOSTAWAY_API_KEY=f94377ebbbb479490bb3ec364649168dc443dda2e4830facaf5de2e74ccc9152
@@ -78,23 +78,23 @@ HOSTAWAY_ACCOUNT_ID=61148
 
 #### Vercel Deployment
 
-1. Vai a Vercel Dashboard → Your Project → Settings → Environment Variables
-2. Aggiungi:
+1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables
+2. Add:
    - **Key:** `HOSTAWAY_API_KEY`
    - **Value:** `f94377ebbbb479490bb3ec364649168dc443dda2e4830facaf5de2e74ccc9152`
    - **Environment:** Production, Preview, Development
-3. Aggiungi:
+3. Add:
    - **Key:** `HOSTAWAY_ACCOUNT_ID`
    - **Value:** `61148`
    - **Environment:** Production, Preview, Development
-4. Clicca "Save"
-5. **Redeploy** il progetto
+4. Click "Save"
+5. **Redeploy** the project
 
-### Opzione 2: Hardcode (Solo per Testing)
+### Option 2: Hardcode (Testing Only)
 
-⚠️ **Non raccomandato per produzione**
+⚠️ **Not recommended for production**
 
-Modifica `app/api/reviews/hostaway/route.ts`:
+Modify `app/api/reviews/hostaway/route.ts`:
 
 ```typescript
 const response = await fetch(
@@ -109,11 +109,11 @@ const response = await fetch(
 
 ---
 
-## 🚀 Attivazione API Reale
+## 🚀 Activate Real API
 
-### Step 1: Decommentare Codice
+### Step 1: Uncomment Code
 
-In `app/api/reviews/hostaway/route.ts`, decommenta il codice nella funzione `fetchHostawayReviews()`:
+In `app/api/reviews/hostaway/route.ts`, uncomment the code in `fetchHostawayReviews()` function:
 
 ```typescript
 async function fetchHostawayReviews(): Promise<HostawayReview[]> {
@@ -137,9 +137,9 @@ async function fetchHostawayReviews(): Promise<HostawayReview[]> {
 }
 ```
 
-### Step 2: Rimuovi Mock Data
+### Step 2: Remove Mock Data
 
-Commenta o rimuovi:
+Comment or remove:
 ```typescript
 // return mockReviews as HostawayReview[];
 ```
@@ -148,86 +148,85 @@ Commenta o rimuovi:
 
 ```bash
 npm run dev
-# Visita: http://localhost:3000/api/reviews/hostaway
+# Visit: http://localhost:3000/api/reviews/hostaway
 ```
 
 ---
 
-## 📝 Formato Risposta Gestito
+## 📝 Response Format Handling
 
-L'applicazione gestisce correttamente:
+The application correctly handles:
 
 ✅ **Status Check:**
-- Verifica `data.status === 'success'`
-- Estrae `data.result` array
+- Verifies `data.status === 'success'`
+- Extracts `data.result` array
 
-✅ **Normalizzazione:**
-- `rating: null` → Calcola da categorie
-- Date string → Converte a Date object
-- Channel mancante → Default 'hostaway'
-- Categorie → Normalizza (lowercase, trimmed)
+✅ **Normalization:**
+- `rating: null` → Calculates from categories
+- Date string → Converts to Date object
+- Missing channel → Default 'hostaway'
+- Categories → Normalizes (lowercase, trimmed)
 
 ✅ **Error Handling:**
-- Gestisce risposte inattese
-- Logging per debugging
-- Fallback sicuro
+- Handles unexpected responses
+- Logging for debugging
+- Safe fallback
 
 ---
 
-## 🧪 Test API
+## 🧪 API Testing
 
-### Test Locale
+### Local Test
 
 ```bash
-# Con mock data (attuale)
+# With mock data (current)
 npm run dev
-# Visita: http://localhost:3000/api/reviews/hostaway
+# Visit: http://localhost:3000/api/reviews/hostaway
 
-# Con API reale (dopo configurazione)
-# Assicurati che .env.local contenga le credenziali
+# With real API (after configuration)
+# Make sure .env.local contains credentials
 npm run dev
-# Visita: http://localhost:3000/api/reviews/hostaway
+# Visit: http://localhost:3000/api/reviews/hostaway
 ```
 
-### Test Vercel
+### Vercel Test
 
-1. Configura variabili d'ambiente su Vercel
+1. Configure environment variables on Vercel
 2. Redeploy
-3. Visita: `https://[your-url].vercel.app/api/reviews/hostaway`
+3. Visit: `https://[your-url].vercel.app/api/reviews/hostaway`
 
 ---
 
-## ⚠️ Note Importanti
+## ⚠️ Important Notes
 
 1. **Sandbox Environment:**
-   - Il sandbox Hostaway potrebbe non avere recensioni
-   - L'app usa mock data per sviluppo/testing
-   - Le credenziali sono pronte per quando l'API avrà dati reali
+   - Hostaway sandbox might not have reviews
+   - App uses mock data for development/testing
+   - Credentials are ready for when API has real data
 
-2. **Sicurezza:**
-   - ⚠️ **Non committare** `.env.local` nel repository
-   - ✅ Usa variabili d'ambiente su Vercel
-   - ✅ Le credenziali sono già in `.gitignore`
+2. **Security:**
+   - ⚠️ **Do not commit** `.env.local` to repository
+   - ✅ Use environment variables on Vercel
+   - ✅ Credentials are already in `.gitignore`
 
-3. **Formato Risposta:**
-   - L'app gestisce correttamente `{status: "success", result: [...]}`
-   - Il codice è già preparato per questo formato
-   - Basta decommentare e configurare le credenziali
+3. **Response Format:**
+   - App correctly handles `{status: "success", result: [...]}`
+   - Code is already prepared for this format
+   - Just uncomment and configure credentials
 
 ---
 
 ## ✅ Checklist
 
-- [x] Codice gestisce formato `{status: "success", result: [...]}`
-- [x] Gestione `rating: null` implementata
-- [x] Parsing date formato `"2020-08-21 22:45:14"` implementato
-- [x] Normalizzazione categorie implementata
-- [x] Default channel implementato
-- [ ] Credenziali configurate in `.env.local` (opzionale)
-- [ ] Credenziali configurate su Vercel (opzionale)
-- [ ] Codice API reale decommentato (quando necessario)
+- [x] Code handles format `{status: "success", result: [...]}`
+- [x] `rating: null` handling implemented
+- [x] Date parsing format `"2020-08-21 22:45:14"` implemented
+- [x] Category normalization implemented
+- [x] Default channel implemented
+- [ ] Credentials configured in `.env.local` (optional)
+- [ ] Credentials configured on Vercel (optional)
+- [ ] Real API code uncommented (when needed)
 
 ---
 
-**Status:** ✅ Pronto per API reale - Basta configurare credenziali e decommentare codice
-
+**Status:** ✅ Ready for real API - Just configure credentials and uncomment code

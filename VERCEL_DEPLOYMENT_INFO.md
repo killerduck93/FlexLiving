@@ -1,79 +1,79 @@
-# ✅ Deployment su Vercel - COMPLETATO
+# ✅ Vercel Deployment - COMPLETED
 
-## 🎉 Deployment Riuscito!
+## 🎉 Deployment Successful!
 
-**Progetto Vercel:** `flex-living-reviews`  
-**URL Preview:** https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app  
-**URL Production:** https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app
+**Vercel Project:** `flex-living-reviews`  
+**Preview URL:** https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app  
+**Production URL:** https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app
 
-**Dashboard Vercel:** https://vercel.com/killerduck93s-projects/flex-living-reviews
+**Vercel Dashboard:** https://vercel.com/killerduck93s-projects/flex-living-reviews
 
 ---
 
-## ⚠️ IMPORTANTE: Configurazione Framework
+## ⚠️ IMPORTANT: Framework Configuration
 
-Vercel potrebbe non aver rilevato automaticamente Next.js. **Devi configurare manualmente:**
+Vercel might not have automatically detected Next.js. **You need to configure manually:**
 
-### Step 1: Vai su Vercel Dashboard
+### Step 1: Go to Vercel Dashboard
 
-1. Apri: https://vercel.com/killerduck93s-projects/flex-living-reviews
-2. Clicca su **"Settings"** (in alto)
+1. Open: https://vercel.com/killerduck93s-projects/flex-living-reviews
+2. Click on **"Settings"** (top menu)
 
-### Step 2: Configura Framework
+### Step 2: Configure Framework
 
-1. Vai a **"General"** → **"Framework Preset"**
-2. Seleziona: **"Next.js"**
-3. Clicca **"Save"**
+1. Go to **"General"** → **"Framework Preset"**
+2. Select: **"Next.js"**
+3. Click **"Save"**
 
-### Step 3: Verifica Build Settings
+### Step 3: Verify Build Settings
 
-1. Vai a **"General"** → **"Build & Development Settings"**
-2. Verifica:
+1. Go to **"General"** → **"Build & Development Settings"**
+2. Verify:
    - **Framework Preset:** Next.js
-   - **Build Command:** `next build` (o lascia vuoto)
-   - **Output Directory:** `.next` (o lascia vuoto)
-   - **Install Command:** `npm install` (o lascia vuoto)
-3. Clicca **"Save"**
+   - **Build Command:** `next build` (or leave empty)
+   - **Output Directory:** `.next` (or leave empty)
+   - **Install Command:** `npm install` (or leave empty)
+3. Click **"Save"**
 
 ### Step 4: Redeploy
 
-1. Vai a **"Deployments"** (menu laterale)
-2. Clicca sui **"..."** dell'ultimo deployment
-3. Clicca **"Redeploy"**
-4. Oppure: Vai a **"Settings"** → **"Git"** e connetti il repository GitHub per auto-deploy
+1. Go to **"Deployments"** (side menu)
+2. Click on **"..."** of the latest deployment
+3. Click **"Redeploy"**
+4. Or: Go to **"Settings"** → **"Git"** and connect the GitHub repository for auto-deploy
 
 ---
 
-## 🔧 Alternativa: Connetti Repository GitHub
+## 🔧 Alternative: Connect GitHub Repository
 
-### Metodo Consigliato (Auto-Deploy)
+### Recommended Method (Auto-Deploy)
 
-1. Vai a: https://vercel.com/killerduck93s-projects/flex-living-reviews/settings
-2. Clicca su **"Git"** (menu laterale)
-3. Clicca **"Connect Git Repository"**
-4. Seleziona: **`killerduck93/FlexLiving`**
-5. Vercel rileverà automaticamente Next.js
-6. Clicca **"Deploy"**
+1. Go to: https://vercel.com/killerduck93s-projects/flex-living-reviews/settings
+2. Click on **"Git"** (side menu)
+3. Click **"Connect Git Repository"**
+4. Select: **`killerduck93/FlexLiving`**
+5. Vercel will automatically detect Next.js
+6. Click **"Deploy"**
 
-Questo metodo è migliore perché:
-- ✅ Rileva automaticamente Next.js
-- ✅ Auto-deploy su ogni push
-- ✅ Build settings corrette
-
----
-
-## ✅ Verifica Deployment
-
-Apri l'URL: https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app
-
-**Verifica:**
-- [ ] Pagina carica
-- [ ] Dashboard funziona
-- [ ] API routes funzionano
+This method is better because:
+- ✅ Automatically detects Next.js
+- ✅ Auto-deploy on every push
+- ✅ Correct build settings
 
 ---
 
-## 📝 Informazioni per Submission
+## ✅ Verify Deployment
+
+Open the URL: https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app
+
+**Verify:**
+- [ ] Page loads
+- [ ] Dashboard works
+- [ ] API routes work
+
+---
+
+## 📝 Submission Information
 
 1. **GitHub Repository:**
    ```
@@ -84,7 +84,7 @@ Apri l'URL: https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.
    ```
    https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.app
    ```
-   (O l'URL che vedi dopo aver configurato correttamente)
+   (Or the URL you see after proper configuration)
 
 3. **AI Tool Used:**
    ```
@@ -93,25 +93,24 @@ Apri l'URL: https://flex-living-reviews-gj8a13mc4-killerduck93s-projects.vercel.
 
 ---
 
-## 🆘 Se l'App Non Funziona
+## 🆘 If App Doesn't Work
 
-1. **Vai a Vercel Dashboard:** https://vercel.com/killerduck93s-projects/flex-living-reviews
-2. **Clicca su "Deployments"**
-3. **Clicca sull'ultimo deployment**
-4. **Controlla "Build Logs"** per errori
-5. **Se vedi errori, dimmeli e li risolvo**
+1. **Go to Vercel Dashboard:** https://vercel.com/killerduck93s-projects/flex-living-reviews
+2. **Click on "Deployments"**
+3. **Click on the latest deployment**
+4. **Check "Build Logs"** for errors
+5. **If you see errors, tell me and I'll fix them**
 
 ---
 
-## 🎯 Prossimi Passi
+## 🎯 Next Steps
 
-1. ✅ Configura Framework su Vercel (Next.js)
-2. ✅ Connetti repository GitHub (consigliato)
-3. ✅ Verifica che l'app funzioni
-4. ✅ Testa tutte le funzionalità
+1. ✅ Configure Framework on Vercel (Next.js)
+2. ✅ Connect GitHub repository (recommended)
+3. ✅ Verify app works
+4. ✅ Test all features
 5. ✅ Submit assessment
 
 ---
 
-**Status:** ✅ Deploy completato - Configurazione framework necessaria
-
+**Status:** ✅ Deployment completed - Framework configuration needed
