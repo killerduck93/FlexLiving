@@ -14,6 +14,11 @@ Complete guide for deploying Flex Living Reviews Dashboard to Vercel.
 
 **That's it!** 🎉
 
+**Note:** Vercel automatically detects Next.js. If framework isn't detected:
+- Go to Settings → General → Framework Preset
+- Select "Next.js"
+- Save and redeploy
+
 ---
 
 ## 📋 Detailed Deployment Steps
@@ -159,7 +164,7 @@ After successful deployment:
 
 1. **Test everything** on live URL
 2. **Save your Vercel URL** for submission
-3. **Submit assessment** (see [SUBMISSION_GUIDE.md](SUBMISSION_GUIDE.md))
+3. **Submit assessment** (see [FINAL_STATUS.md](../FINAL_STATUS.md))
 
 ---
 

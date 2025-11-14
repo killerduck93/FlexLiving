@@ -405,8 +405,7 @@ All documentation is available in the `docs/` folder:
 - **[Assessment PDF](docs/FlexLiving_Reviews_Dashboard_Assessment.pdf)** - Original assessment document
 
 **Additional Documents:**
-- **[DELIVERABLES.md](DELIVERABLES.md)** - Complete deliverables summary
-- **[FINAL_STATUS.md](FINAL_STATUS.md)** - Final status and submission checklist
+- **[FINAL_STATUS.md](FINAL_STATUS.md)** - Final status, deliverables, and submission checklist
 
 ## 📧 Contact
 
