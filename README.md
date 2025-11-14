@@ -4,7 +4,7 @@ A comprehensive property review management system for Flex Living, enabling mana
 
 ## 🎯 Live Demo
 
-**Live Application:** https://flex-living-reviews-laajr220g-killerduck93s-projects.vercel.app
+**Live Application:** https://flex-living-reviews-kixfshlo5-killerduck93s-projects.vercel.app
 
 **GitHub Repository:** https://github.com/killerduck93/FlexLiving
 
