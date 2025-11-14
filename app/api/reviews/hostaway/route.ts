@@ -10,14 +10,6 @@ export const dynamic = 'force-dynamic';
 /**
  * Fetches reviews from Hostaway API
  * 
- * In production, this function would make an actual API call to Hostaway.
- * Currently using mock data since the sandbox environment contains no reviews.
- * 
- * @returns Promise<HostawayReview[]> - Array of raw reviews from Hostaway API
- */
-/**
- * Fetches reviews from Hostaway API
- * 
  * Handles the Hostaway API response format:
  * {
  *   "status": "success",
@@ -35,6 +27,9 @@ export const dynamic = 'force-dynamic';
  *     }
  *   ]
  * }
+ * 
+ * In production, this function would make an actual API call to Hostaway.
+ * Currently using mock data since the sandbox environment contains no reviews.
  * 
  * @returns Promise<HostawayReview[]> - Array of raw reviews from Hostaway API
  */
