@@ -2,7 +2,7 @@
 
 import { NormalizedReview } from '@/types/review';
 import { Star, CheckCircle } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 /**
  * Props for the PublicReviews component
@@ -31,12 +31,39 @@ interface PublicReviewsProps {
 export default function PublicReviews({ reviews }: PublicReviewsProps) {
   /**
    * Formats a date to a readable string format
+   * Handles both Date objects and date strings
    * 
-   * @param date - Date object to format
+   * @param date - Date object or date string to format
    * @returns Formatted date string (e.g., "Jan 15, 2024")
    */
-  const formatDate = (date: Date) => {
-    return format(date, 'MMM d, yyyy');
+  const formatDate = (date: Date | string) => {
+    try {
+      if (!date) return 'Date unknown';
+      
+      // If it's already a Date object, use it directly
+      let dateObj: Date;
+      
+      if (date instanceof Date) {
+        dateObj = date;
+      } else if (typeof date === 'string') {
+        // Use parseISO for ISO strings (contains 'T' or 'Z'), new Date for other formats
+        dateObj = (date.includes('T') || date.includes('Z')) 
+          ? parseISO(date) 
+          : new Date(date);
+      } else {
+        return 'Date unknown';
+      }
+      
+      // Validate the date
+      if (isNaN(dateObj.getTime())) {
+        return 'Date unknown';
+      }
+      
+      return format(dateObj, 'MMM d, yyyy');
+    } catch (error) {
+      console.error('Error formatting date:', error, date);
+      return 'Date unknown';
+    }
   };
 
   // Calculate average rating from all displayed reviews
@@ -106,8 +133,17 @@ export default function PublicReviews({ reviews }: PublicReviewsProps) {
                   const guestName = review?.guestName || 'Anonymous';
                   const guestInitial = guestName.charAt(0).toUpperCase();
                   
-                  // Safe date handling
-                  const reviewDate = review?.submittedAt ? new Date(review.submittedAt) : new Date();
+                  // Safe date handling - handle both Date objects and strings
+                  const dateValue = review?.submittedAt;
+                  let reviewDate: Date | string;
+                  
+                  if (dateValue instanceof Date) {
+                    reviewDate = dateValue;
+                  } else if (typeof dateValue === 'string') {
+                    reviewDate = dateValue;
+                  } else {
+                    reviewDate = new Date();
+                  }
                   
                   return (
                     <div key={review?.id || Math.random()} className="bg-gray-50 rounded-lg p-6">
@@ -118,7 +154,7 @@ export default function PublicReviews({ reviews }: PublicReviewsProps) {
                         <div>
                           <p className="font-semibold text-gray-900">{guestName}</p>
                           <p className="text-xs text-gray-500">
-                            {!isNaN(reviewDate.getTime()) ? formatDate(reviewDate) : 'Date unknown'}
+                            {formatDate(reviewDate)}
                           </p>
                         </div>
                       </div>

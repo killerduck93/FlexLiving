@@ -2,7 +2,7 @@
 
 import { NormalizedReview } from '@/types/review';
 import { Star, Calendar, User, Building, MessageSquare } from 'lucide-react';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 
 /**
  * Props for the ReviewCard component
@@ -76,9 +76,37 @@ export default function ReviewCard({ review, onToggleDisplay, showDisplayToggle 
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
               <span>
-                {review?.submittedAt && !isNaN(new Date(review.submittedAt).getTime())
-                  ? format(new Date(review.submittedAt), 'MMM d, yyyy')
-                  : 'Date unknown'}
+                {(() => {
+                  try {
+                    if (!review?.submittedAt) return 'Date unknown';
+                    
+                    // Handle both Date objects and strings
+                    const dateValue = review.submittedAt;
+                    let dateObj: Date;
+                    
+                    if (dateValue instanceof Date) {
+                      dateObj = dateValue;
+                    } else if (typeof dateValue === 'string') {
+                      // Use parseISO for ISO strings, new Date for other formats
+                      const dateString = dateValue as string;
+                      dateObj = (dateString.includes('T') || dateString.includes('Z'))
+                        ? parseISO(dateString)
+                        : new Date(dateString);
+                    } else {
+                      return 'Date unknown';
+                    }
+                    
+                    // Validate the date
+                    if (isNaN(dateObj.getTime())) {
+                      return 'Date unknown';
+                    }
+                    
+                    return format(dateObj, 'MMM d, yyyy');
+                  } catch (error) {
+                    console.error('Error formatting date:', error);
+                    return 'Date unknown';
+                  }
+                })()}
               </span>
             </div>
             <div className="flex items-center gap-1">
