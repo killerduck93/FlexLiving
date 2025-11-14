@@ -10,7 +10,7 @@
 **✅ DEPLOYED TO VERCEL**
 
 **Production URL:**  
-https://flex-living-reviews-9b3a915we-killerduck93s-projects.vercel.app
+https://flex-living-reviews-7r4k7gaga-killerduck93s-projects.vercel.app
 
 **Vercel Dashboard:**  
 https://vercel.com/killerduck93s-projects/flex-living-reviews
@@ -161,7 +161,7 @@ https://flex-living-reviews-9b3a915we-killerduck93s-projects.vercel.app/api/revi
 https://github.com/killerduck93/FlexLiving
 
 **Live Application URL:**  
-https://flex-living-reviews-9b3a915we-killerduck93s-projects.vercel.app
+https://flex-living-reviews-7r4k7gaga-killerduck93s-projects.vercel.app
 
 **AI Tool Used:**  
 Claude by Anthropic (via Cursor IDE)

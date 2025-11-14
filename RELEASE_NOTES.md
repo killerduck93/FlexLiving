@@ -83,7 +83,7 @@ npm start
 ## 📦 Deployment
 
 **Live Application:**  
-https://flex-living-reviews-9b3a915we-killerduck93s-projects.vercel.app
+https://flex-living-reviews-7r4k7gaga-killerduck93s-projects.vercel.app
 
 **Deployment Platform:** Vercel
 
