@@ -8,6 +8,8 @@ A comprehensive property review management system for Flex Living, enabling mana
 
 **GitHub Repository:** https://github.com/killerduck93/FlexLiving
 
+**Quick Deploy:** See [docs/QUICK_START_DEPLOYMENT.md](docs/QUICK_START_DEPLOYMENT.md) for fast deployment instructions.
+
 ## 📋 Features
 
 ### Manager Dashboard
@@ -381,6 +383,33 @@ Built as part of the Flex Living Developer Assessment.
 **Developer:** [Your Name]  
 **Date:** January 2025  
 **Time Investment:** ~8 hours
+
+## 📚 Additional Documentation
+
+All documentation is available in the `docs/` folder:
+
+### Quick Start & Deployment
+- **[Quick Start Deployment](docs/QUICK_START_DEPLOYMENT.md)** - Fast 3-step deployment guide
+- **[Deployment Guide](docs/DEPLOYMENT.md)** - Detailed deployment instructions
+- **[Deployment Steps](docs/DEPLOYMENT_STEPS.md)** - Step-by-step deployment with troubleshooting
+
+### Testing & Verification
+- **[Testing Guide](docs/TESTING_GUIDE.md)** - Comprehensive testing instructions
+- **[Assessment Verification](docs/ASSESSMENT_VERIFICATION.md)** - Requirements verification checklist
+- **[Final Checklist](docs/FINAL_CHECKLIST.md)** - Final verification checklist
+
+### Submission & Release
+- **[Submission Guide](docs/SUBMISSION_GUIDE.md)** - Step-by-step submission process
+- **[Release Notes](docs/RELEASE_NOTES.md)** - Version 1.0.0 release information
+- **[Deliverables Checklist](docs/DELIVERABLES_CHECKLIST.md)** - Complete deliverables verification
+- **[Final Status](docs/FINAL_STATUS.md)** - Current project status
+
+### Research & Next Steps
+- **[Google Reviews Research](docs/GOOGLE_REVIEWS.md)** - Google Reviews integration research and findings
+- **[Next Steps](docs/NEXT_STEPS.md)** - Post-deployment next steps
+
+### Assessment
+- **[Assessment PDF](docs/FlexLiving_Reviews_Dashboard_Assessment.pdf)** - Original assessment document
 
 ## 📧 Contact
 
