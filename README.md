@@ -406,6 +406,8 @@ All documentation is available in the `docs/` folder:
 
 **Additional Documents:**
 - **[FINAL_STATUS.md](FINAL_STATUS.md)** - Final status, deliverables, and submission checklist
+- **[RELEASE_NOTES.md](RELEASE_NOTES.md)** - Release notes and feature overview
+- **[DOCUMENTATION_RELEASE.md](DOCUMENTATION_RELEASE.md)** - Complete documentation guide
 
 ## 📧 Contact
 
