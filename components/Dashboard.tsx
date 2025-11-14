@@ -70,8 +70,15 @@ export default function Dashboard() {
       
       // Safety check: ensure data exists and has expected structure
       if (data && data.success && Array.isArray(data.data)) {
-        setReviews(data.data);
-        setFilteredReviews(data.data); // Initialize filtered reviews with all reviews
+        // Convert date strings back to Date objects (JSON serialization converts Date to string)
+        const reviewsWithDates = data.data.map((review: any) => ({
+          ...review,
+          submittedAt: review.submittedAt instanceof Date 
+            ? review.submittedAt 
+            : new Date(review.submittedAt),
+        }));
+        setReviews(reviewsWithDates);
+        setFilteredReviews(reviewsWithDates); // Initialize filtered reviews with all reviews
       } else {
         // If structure is unexpected, use empty arrays to prevent crashes
         console.warn('Unexpected API response structure:', data);
@@ -118,9 +125,14 @@ export default function Dashboard() {
           data.reviews.map((r: { id: number; displayOnWebsite: boolean }) => [r.id, r.displayOnWebsite])
         );
         // Update reviews with their display status
+        // Preserve Date objects when updating (JSON serialization converts them to strings)
         setReviews(prev => prev.map(r => ({
           ...r,
           displayOnWebsite: displayMap.get(r.id) ?? false,
+          // Ensure submittedAt remains a Date object
+          submittedAt: r.submittedAt instanceof Date 
+            ? r.submittedAt 
+            : new Date(r.submittedAt),
         })));
       }
     } catch (error) {
@@ -201,16 +213,34 @@ export default function Dashboard() {
       // Get the value to compare based on sort field
       switch (sortField) {
         case 'date':
-          aValue = a.submittedAt.getTime(); // Convert date to timestamp for comparison
-          bValue = b.submittedAt.getTime();
+          // Handle both Date objects and date strings (from JSON serialization)
+          const aDate = a.submittedAt instanceof Date 
+            ? a.submittedAt 
+            : new Date(a.submittedAt);
+          const bDate = b.submittedAt instanceof Date 
+            ? b.submittedAt 
+            : new Date(b.submittedAt);
+          
+          // Validate dates before using getTime()
+          if (isNaN(aDate.getTime())) {
+            aValue = 0; // Invalid dates sort to the end
+          } else {
+            aValue = aDate.getTime();
+          }
+          
+          if (isNaN(bDate.getTime())) {
+            bValue = 0;
+          } else {
+            bValue = bDate.getTime();
+          }
           break;
         case 'rating':
-          aValue = a.rating || a.averageCategoryRating;
-          bValue = b.rating || b.averageCategoryRating;
+          aValue = a.rating || a.averageCategoryRating || 0;
+          bValue = b.rating || b.averageCategoryRating || 0;
           break;
         case 'listing':
-          aValue = a.listingName; // String comparison
-          bValue = b.listingName;
+          aValue = a.listingName || ''; // String comparison
+          bValue = b.listingName || '';
           break;
         default:
           return 0;
@@ -244,10 +274,21 @@ export default function Dashboard() {
       });
 
       // Update local state if API call succeeds
+      // Preserve Date objects when updating
       if (response.ok) {
-        setReviews(prev => prev.map(r =>
-          r.id === reviewId ? { ...r, displayOnWebsite } : r
-        ));
+        setReviews(prev => prev.map(r => {
+          if (r.id === reviewId) {
+            return {
+              ...r,
+              displayOnWebsite,
+              // Ensure submittedAt remains a Date object
+              submittedAt: r.submittedAt instanceof Date 
+                ? r.submittedAt 
+                : new Date(r.submittedAt),
+            };
+          }
+          return r;
+        }));
       }
     } catch (error) {
       console.error('Error updating display status:', error);

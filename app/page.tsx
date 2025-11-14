@@ -44,7 +44,14 @@ export default function Home() {
       
       // Safety check: ensure data exists and has expected structure
       if (data && data.success && Array.isArray(data.data)) {
-        setReviews(data.data);
+        // Convert date strings back to Date objects (JSON serialization converts Date to string)
+        const reviewsWithDates = data.data.map((review: any) => ({
+          ...review,
+          submittedAt: review.submittedAt instanceof Date 
+            ? review.submittedAt 
+            : new Date(review.submittedAt),
+        }));
+        setReviews(reviewsWithDates);
       } else {
         // If structure is unexpected, use empty array to prevent crashes
         console.warn('Unexpected API response structure:', data);
