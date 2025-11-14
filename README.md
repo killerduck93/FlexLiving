@@ -4,11 +4,11 @@ A comprehensive property review management system for Flex Living, enabling mana
 
 ## 🎯 Live Demo
 
-**Live Application:** [Deploy to Vercel and add URL here]
+**Live Application:** https://flex-living-reviews-9b3a915we-killerduck93s-projects.vercel.app
 
 **GitHub Repository:** https://github.com/killerduck93/FlexLiving
 
-**Quick Deploy:** See [docs/QUICK_START_DEPLOYMENT.md](docs/QUICK_START_DEPLOYMENT.md) for fast deployment instructions.
+**Quick Deploy:** See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment instructions.
 
 ## 📋 Features
 
@@ -81,7 +81,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-**For detailed setup and testing instructions, see [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md).**
+**For detailed setup and testing instructions, see [docs/TESTING.md](docs/TESTING.md).**
 
 ## 📁 Project Structure
 
@@ -267,11 +267,11 @@ For detailed Google Reviews integration research, findings, and implementation g
 
 ## 🚀 Deployment
 
-For detailed deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) or [docs/QUICK_START_DEPLOYMENT.md](docs/QUICK_START_DEPLOYMENT.md).
+For detailed deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## 🧪 Testing
 
-For comprehensive testing instructions, see [docs/TESTING_GUIDE.md](docs/TESTING_GUIDE.md).
+For testing instructions, see [docs/TESTING.md](docs/TESTING.md).
 
 ## 💻 Code Quality
 

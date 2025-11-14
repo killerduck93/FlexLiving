@@ -5,15 +5,31 @@ import Dashboard from '@/app/dashboard/page';
 import PublicReviews from '@/components/PublicReviews';
 import { NormalizedReview } from '@/types/review';
 
+/**
+ * Main application page component
+ * 
+ * Handles view switching between Manager Dashboard and Public View.
+ * Manages review data fetching and display status toggling.
+ * 
+ * @returns JSX element representing the main application page
+ */
 export default function Home() {
+  // Current view state: 'dashboard' for manager view, 'public' for public display
   const [view, setView] = useState<'dashboard' | 'public'>('dashboard');
+  // All reviews fetched from the API
   const [reviews, setReviews] = useState<NormalizedReview[]>([]);
+  // Loading state for initial data fetch
   const [loading, setLoading] = useState(true);
 
+  // Fetch reviews on component mount
   useEffect(() => {
     fetchReviews();
   }, []);
 
+  /**
+   * Fetches all reviews from the Hostaway API endpoint
+   * Updates the reviews state with the fetched data
+   */
   const fetchReviews = async () => {
     try {
       const response = await fetch('/api/reviews/hostaway');
@@ -28,6 +44,11 @@ export default function Home() {
     }
   };
 
+  /**
+   * Toggles the display status of a review (approve/hide for public website)
+   * 
+   * @param id - The ID of the review to toggle
+   */
   const toggleDisplay = async (id: number) => {
     const review = reviews.find(r => r.id === id);
     if (!review) return;

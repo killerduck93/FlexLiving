@@ -4,21 +4,57 @@ import { useState, useEffect, useMemo } from 'react';
 import { Filter, X } from 'lucide-react';
 import { ReviewFilters } from '@/types/review';
 
+/**
+ * Props for the FilterBar component
+ */
 interface FilterBarProps {
+  /** Array of available property/listing names */
   listings: string[];
+  /** Array of available channel names */
   channels: string[];
+  /** Array of available category names */
   categories: string[];
+  /** Callback function called when filters change */
   onFilterChange: (filters: ReviewFilters) => void;
 }
 
+/**
+ * FilterBar Component
+ * 
+ * Provides UI for filtering reviews by various criteria:
+ * - Property/listing name
+ * - Rating (star rating scale)
+ * - Channel (e.g., airbnb, booking.com)
+ * - Category (e.g., cleanliness, communication)
+ * - Review type (guest-to-host, host-to-guest)
+ * - Status (published, pending)
+ * 
+ * Features:
+ * - Collapsible filter panel
+ * - Active filter count badge
+ * - Clear all filters button
+ * - Responsive grid layout
+ * 
+ * @param props - FilterBarProps
+ * @returns JSX element representing the filter bar
+ */
 export default function FilterBar({ listings, channels, categories, onFilterChange }: FilterBarProps) {
+  // Whether the filter panel is expanded
   const [isOpen, setIsOpen] = useState(false);
+  // Current active filter values
   const [filters, setFilters] = useState<ReviewFilters>({});
 
+  // Notify parent component when filters change
   useEffect(() => {
     onFilterChange(filters);
   }, [filters, onFilterChange]);
 
+  /**
+   * Updates a specific filter value
+   * 
+   * @param key - The filter key to update
+   * @param value - The new filter value (undefined to clear)
+   */
   const updateFilter = (key: keyof ReviewFilters, value: any) => {
     setFilters(prev => ({
       ...prev,
@@ -26,10 +62,14 @@ export default function FilterBar({ listings, channels, categories, onFilterChan
     }));
   };
 
+  /**
+   * Clears all active filters
+   */
   const clearFilters = () => {
     setFilters({});
   };
 
+  // Count how many filters are currently active (for badge display)
   const activeFilterCount = Object.values(filters).filter(v => v !== undefined).length;
 
   return (
