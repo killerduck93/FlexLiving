@@ -7,10 +7,10 @@ A comprehensive review management system for Flex Living property managers to as
 **Production URL:**  
 https://flex-living-reviews-killerduck93s-projects.vercel.app
 
-**Note:** If you see a 404 error, please check Vercel project settings:
+**Important:** If you see a 404 or "Couldn't find any `pages` or `app` directory" error:
 1. Go to: https://vercel.com/killerduck93s-projects/flex-living-reviews/settings/general
 2. Verify **Framework Preset** = "Next.js"
-3. Verify **Root Directory** = empty (or `./`)
+3. **CRITICAL:** Set **Root Directory** = empty (leave blank) or `./`
 4. Click "Save" and redeploy
 
 ## 📋 Features
