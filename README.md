@@ -2,21 +2,16 @@
 
 A comprehensive review management system for Flex Living property managers to assess property performance, analyze guest feedback, and manage public review display.
 
-## 🚀 Quick Start
+## 🚀 Live Application
 
-### Prerequisites
+**Production URL:**  
+https://flex-living-reviews-killerduck93s-projects.vercel.app
 
-- Node.js 18+ 
-- npm or yarn
-
-### Installation
-
-```bash
-npm install
-npm run dev
-```
-
-Visit `http://localhost:3000`
+**Note:** If you see a 404 error, please check Vercel project settings:
+1. Go to: https://vercel.com/killerduck93s-projects/flex-living-reviews/settings/general
+2. Verify **Framework Preset** = "Next.js"
+3. Verify **Root Directory** = empty (or `./`)
+4. Click "Save" and redeploy
 
 ## 📋 Features
 
@@ -42,6 +37,22 @@ Visit `http://localhost:3000`
 - **Icons**: Lucide React
 - **Date Handling**: date-fns
 - **Deployment**: Vercel
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+```bash
+npm install
+npm run dev
+```
+
+Visit `http://localhost:3000`
 
 ## 📁 Project Structure
 
@@ -144,12 +155,6 @@ To activate the real API:
 ## 🌐 Google Reviews
 
 For Google Reviews integration research and findings, see [docs/GOOGLE_REVIEWS.md](docs/GOOGLE_REVIEWS.md).
-
-## 🚀 Deployment
-
-The application is deployed on Vercel. For deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
-
-**Live Application:** [https://flex-living-reviews-killerduck93s-projects.vercel.app](https://flex-living-reviews-killerduck93s-projects.vercel.app)
 
 ## 📝 Documentation
 
